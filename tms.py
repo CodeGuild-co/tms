@@ -27,3 +27,7 @@ def load_examples():
                     filename, _ = os.path.splitext(f)
                     yield {'name': l[5:].strip(), 'filename': filename}
                     break
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
