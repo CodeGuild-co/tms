@@ -1,0 +1,56 @@
+div.right.floated {
+    float: right;
+    margin-right: 0.25em;
+}
+
+.ui.header {
+    margin-bottom: 0;
+}
+
+.ui.header.center.aligned {
+    padding-top:20px;
+}
+
+#editor-container {
+    padding: 0;
+}
+
+#machine {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#speed_column {
+    margin-top: 10px;
+}
+
+#menu_column {
+    margin-top: 10px;
+}
+
+.tape-container.tape-container {
+    padding: 0;
+}
+
+#tape {
+    overflow-x: auto;
+    font-family: monospace;
+    background-color: black;
+    line-height: 80pt;
+    min-height: 80pt;
+}
+
+.cell {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: white;
+    font-size: 50pt;
+    line-height: initial;
+    vertical-align: middle;
+}
+
+.cell.head {
+    background-color: #1B8A16;
+}
