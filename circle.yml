@@ -1,0 +1,14 @@
+general:
+  branches:
+    only:
+      - master
+
+machine:
+  timezone:
+    Europe/London
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - git push dokku@codeguild.co:tms master
