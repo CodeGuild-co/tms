@@ -6,6 +6,8 @@ general:
 machine:
   timezone:
     Europe/London
+  python:
+    version: 3.6.0
 
 deployment:
   master:
