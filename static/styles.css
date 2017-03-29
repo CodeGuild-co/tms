@@ -36,21 +36,27 @@ div.right.floated {
     overflow-x: auto;
     font-family: monospace;
     background-color: black;
-    line-height: 80pt;
-    min-height: 80pt;
+    line-height: 50pt;
+    min-height: 50pt;
 }
 
 .cell {
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px 20px;
-    margin: 10px;
+    margin: 3px;
     background-color: white;
-    font-size: 50pt;
+    font-size: 25pt;
     line-height: initial;
     vertical-align: middle;
 }
 
 .cell.head {
     background-color: #1B8A16;
+}
+.container{
+    background-color: #e0e0e0;
+}
+body{
+    background-color: #e0e0e0;
 }
