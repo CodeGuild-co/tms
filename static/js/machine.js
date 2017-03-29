@@ -1,5 +1,5 @@
 var tape = {
-    head_at: 0,
+    head_at: 5,
     contents: [],
 
     load: function(contents) {
