@@ -60,3 +60,7 @@ div.right.floated {
 body{
     background-color: #e0e0e0;
 }
+.write{
+    float: left;
+    padding-right: 5px;
+}
