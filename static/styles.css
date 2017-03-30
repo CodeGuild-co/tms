@@ -76,12 +76,9 @@ body{
 #errorbox{
     display: none;
     z-index: 1;
-    width:1127px;
-    position: relative;
+    position: absolute;
     font-size: 15pt;
-}
-.header{
-    z-index: 1;
+    width:100%;
 }
 .close{
     cursor: pointer;
@@ -89,4 +86,8 @@ body{
     position: relative;
     left:90%;
     top:50%;
+}
+.loading{
+    display: none;
+    z-index: 1;
 }

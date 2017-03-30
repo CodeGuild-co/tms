@@ -38,6 +38,12 @@ var tape = {
     },
 
     render: function() {
+
+        var delay = parseInt($('.speed select').val());
+        if (delay ==-1){
+            return;
+        }
+
         var cells = [];
         for (var i = 0; i < this.contents.length; i++) {
             var cell = $("<span class='cell'></span>");
@@ -48,7 +54,7 @@ var tape = {
             cells.push(cell);
         }
         $("#tape").children().remove();
-        $("#tape").append(cells);
+        $("#tape").append(cells);      
     },
 
     /**
@@ -82,11 +88,13 @@ var machine = {
 
     play: function() {
         machine.transition(tape.read());
+        var delay = parseInt($('.speed select').val());
+        delay = Math.max(delay, 0);
         setTimeout(function() {
             if(!machine.pause) {
                 machine.play();
             }
-        }, parseInt($('.speed select').val()));
+        }, delay);
     },
 
     hard_reset: function() {
@@ -143,6 +151,7 @@ var machine = {
 
     transition: function(input) {
         if (this.halting_states.indexOf(this.current_state_name) !== -1) {
+            tape.render();
             // Don't do anything, we're in a halting state, there's nowhere to go
             return;
         }
@@ -167,6 +176,10 @@ var machine = {
     },
 
     render: function() {
+        var delay = parseInt($('.speed select').val());
+        if (delay ==-1){
+            return;
+        }
         $("#machine-name").text(this.name || "Unnamed");
         $("#machine-description").text(this.description || "");
         $("#machine-state").text(this.current_state_name || "No state");
@@ -186,6 +199,7 @@ $(document).ready(function() {
     $('#play').click(function() {
         machine.pause = false;
         machine.play();
+        
     });
 
     $('#pause').click(function() {
