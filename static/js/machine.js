@@ -49,8 +49,8 @@ var tape = {
         }
         $("#tape").children().remove();
         $("#tape").append(cells);	
-	var returned = (this.head_at * 66) + 33;
-	$("#tape").scrollLeft(returned);
+        var returned = (this.head_at * 66) + 33;
+        $("#tape").scrollLeft(returned);
     },
 	
     /**
