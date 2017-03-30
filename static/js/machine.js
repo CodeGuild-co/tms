@@ -13,6 +13,8 @@ var tape = {
         this.contents[this.head_at] = value;
         if (render) {
             this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
         }
     },
 
@@ -27,6 +29,8 @@ var tape = {
         this.extend_to(this.head_at);
         if (render) {
             this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
         }
     },
 
@@ -35,6 +39,8 @@ var tape = {
         this.extend_to(this.head_at);
         if (render) {
             this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
         }
     },
 
@@ -42,6 +48,8 @@ var tape = {
         this.head_at = position;
         if (render) {
             this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
         }
     },
 
@@ -160,6 +168,7 @@ var machine = {
             this.render();
             value = 0;
             this.pause = true;
+            document.getElementById('load').style.display = "none";
             // Don't do anything, we're in a halting state, there's nowhere to go
             return;
         }
@@ -211,12 +220,14 @@ $(document).ready(function() {
 
     $('#pause').click(function() {
         machine.pause = true;
+        document.getElementById('load').style.display = "none";
         tape.render();
     });
 
     $('#stop').click(function() {
         if (!machine.pause) {
             machine.pause = true;
+            document.getElementById('load').style.display = "none";
         } else {
             tape.load("", true);
             machine.soft_reset();
@@ -226,6 +237,7 @@ $(document).ready(function() {
     });
 
     $('#step').click(function() {
+        document.getElementById('load').style.display = "none";
         machine.transition(tape.read(), true);
     });
 });
