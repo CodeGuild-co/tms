@@ -64,3 +64,29 @@ body{
     float: left;
     padding-right: 5px;
 }
+#popup{
+    display: none;
+    background-color: red;
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    left:79%;
+    top:99%;
+}
+#errorbox{
+    display: none;
+    z-index: 1;
+    width:1127px;
+    position: relative;
+    font-size: 15pt;
+}
+.header{
+    z-index: 1;
+}
+.close{
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    left:90%;
+    top:50%;
+}
