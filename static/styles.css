@@ -38,6 +38,9 @@ div.right.floated {
     background-color: black;
     line-height: 50pt;
     min-height: 50pt;
+    padding-right: 50%;
+    white-space: nowrap;
+    padding-left: 50%;
 }
 
 .cell {
@@ -49,22 +52,24 @@ div.right.floated {
     font-size: 25pt;
     line-height: initial;
     vertical-align: middle;
+    width: 60px;
+    display: inline-block;
 }
 
 .cell.head {
     background-color: #1B8A16;
 }
-.container{
+.container {
     background-color: #e0e0e0;
 }
-body{
+body {
     background-color: #e0e0e0;
 }
-.write{
+.write {
     float: left;
     padding-right: 5px;
 }
-#popup{
+#popup {
     display: none;
     background-color: red;
     position: absolute;
@@ -73,21 +78,21 @@ body{
     left:79%;
     top:99%;
 }
-#errorbox{
+#errorbox {
     display: none;
     z-index: 1;
     position: absolute;
     font-size: 15pt;
     width:100%;
 }
-.close{
+.close {
     cursor: pointer;
     z-index: 1;
     position: relative;
     left:90%;
     top:50%;
 }
-.loading{
+.loading {
     display: none;
     z-index: 1;
 }
