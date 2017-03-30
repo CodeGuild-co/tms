@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+
+docker build --tag tms "$VG_APP_DIR"

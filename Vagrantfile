@@ -4,21 +4,36 @@ Vagrant.configure("2") do |config|
     config.vm.box = "ubuntu/trusty64"
     config.vm.network "private_network", ip: "192.168.33.10"
     config.vm.provision "shell", inline: <<-SHELL
-        add-apt-repository ppa:jonathonf/python-3.6
         apt-get update
         apt-get upgrade --assume-yes
         apt-get install --assume-yes \
+            git \
             vim \
-            python3.6 \
-            python3-pip
+            linux-image-extra-$(uname -r) \
+            linux-image-extra-virtual \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+        add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) \
+            stable"
+        apt-get update
+        apt-get install --assume-yes docker-ce
         apt-get autoremove --assume-yes
-        pip3 install virtualenv
+
+        wget -qO- https://raw.githubusercontent.com/vantage-org/vantage/master/bootstrap | sh
+        vantage __plugins install redis
+
+        groupadd docker
+        usermod -aG docker vagrant
+        docker pull python:3.6-onbuild
     SHELL
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
-        virtualenv /home/vagrant/venv -p python3.6
-        . /home/vagrant/venv/bin/activate
-        echo ". /home/vagrant/venv/bin/activate" >> /home/vagrant/.profile
-        cd /vagrant
-        pip install -r requirements.txt
+        mkdir -p /vagrant/.env
+        touch /vagrant/.env/default
+        chown -R vagrant:vagrant /vagrant/.env
     SHELL
 end

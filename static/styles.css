@@ -38,9 +38,7 @@ div.right.floated {
     background-color: black;
     line-height: 50pt;
     min-height: 50pt;
-    padding-right: 50%;
     white-space: nowrap;
-    padding-left: 50%;
 }
 
 .cell {
@@ -54,6 +52,12 @@ div.right.floated {
     vertical-align: middle;
     width: 60px;
     display: inline-block;
+}
+.cell:first-child {
+    margin-left: 50%;
+}
+.cell:last-child {
+    margin-right: 50%;
 }
 
 .cell.head {
