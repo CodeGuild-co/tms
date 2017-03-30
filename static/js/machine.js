@@ -51,6 +51,15 @@ var tape = {
         $("#tape").append(cells);
     },
 
+    midhead: function(index) {
+		returned = ("head_at").css (position);
+		windwidth = (window.width / 2);
+		if returned > windwidth {
+			window.scrollBy(returned - windwidth, 0);
+		} else {
+			window.scrollBy(returned - windwidth, 0);
+		}
+	},
     /**
      * Extend the size of the tape to ensure that the head can point at index
      **/
