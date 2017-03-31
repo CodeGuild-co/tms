@@ -157,6 +157,7 @@ var machine = {
         if (this.halting_states.indexOf(this.current_state_name) !== -1) {
             tape.render();
             this.render();
+            $(".tape-container").removeClass("loading");
             value = 0;
             this.pause = true;
             // Don't do anything, we're in a halting state, there's nowhere to go
@@ -205,11 +206,15 @@ $(document).ready(function() {
         var render = parseInt($('.speed select').val()) !== -1;
         machine.pause = false;
         machine.play(render);
+        if (!render) {
+            $(".tape-container").addClass("loading");
+        }
     });
 
     $('#pause').click(function() {
         machine.pause = true;
         tape.render();
+        $(".tape-container").removeClass("loading");
     });
 
     $('#stop').click(function() {
@@ -221,6 +226,7 @@ $(document).ready(function() {
             machine.render();
             tape.render();
         }
+        $(".tape-container").removeClass("loading");
     });
 
     $('#step').click(function() {
