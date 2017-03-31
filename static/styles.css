@@ -38,9 +38,7 @@ div.right.floated {
     background-color: black;
     line-height: 50pt;
     min-height: 50pt;
-	padding-right: 50%;
-	white-space: nowrap;
-	padding-left: 50%;
+    white-space: nowrap;
 }
 
 .cell {
@@ -52,16 +50,53 @@ div.right.floated {
     font-size: 25pt;
     line-height: initial;
     vertical-align: middle;
-	width: 60px;
-	display: inline-block;
+    width: 60px;
+    display: inline-block;
+}
+.cell:first-child {
+    margin-left: 50%;
+}
+.cell:last-child {
+    margin-right: 50%;
 }
 
 .cell.head {
     background-color: #1B8A16;
 }
-.container{
+.container {
     background-color: #e0e0e0;
 }
-body{
+body {
     background-color: #e0e0e0;
+}
+.write {
+    float: left;
+    padding-right: 5px;
+}
+#popup {
+    display: none;
+    background-color: red;
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    left:79%;
+    top:99%;
+}
+#errorbox {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    font-size: 15pt;
+    width:100%;
+}
+.close {
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    left:90%;
+    top:50%;
+}
+.loading {
+    display: none;
+    z-index: 1;
 }

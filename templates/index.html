@@ -53,9 +53,7 @@ q0, _, q0, 1, >
                 </div>
             </div>
         </div>
-
-        <div id="messages"></div>
-
+        <!--<div id="messages"></div>-->
         <div class="ui segments">
             <div class="ui segment clearing">
                 <h2 class="ui header left floated">Machine</h2>
@@ -71,16 +69,19 @@ q0, _, q0, 1, >
             <div class="ui segment">
                 <div class="ui action input fluid">
                     <input type="text" id="tape-input" placeholder="Contents of tape...">
-                    <button class="ui icon button action load-tape">
+                    <button class="ui icon button action load-tape labelled right floated">
                         <i class="write icon"></i>
                         Load Tape
                     </button>
                 </div>
             </div>
+            <div id = "load" class="ui loading segment">
+            </div>
             <div class="ui segment tape-container">
                 <div id="tape"></div>
             </div>
             <div class="ui segment">
+
                 <select class="ui dropdown speed">
                     <option value="1000">Slowest</option>
                     <option value="625">Slower</option>
@@ -89,7 +90,9 @@ q0, _, q0, 1, >
                     <option value="100">Fast</option>
                     <option value="50">Faster</option>
                     <option value="0">Fastest</option>
+                    <option value="-1">Don't Render</option>
                 </select>
+
                 <div class="ui icon buttons floated right controls">
                     <button class="ui icon button" id="step">
                         <i class="step forward icon"></i>
@@ -97,6 +100,7 @@ q0, _, q0, 1, >
                     <button class="ui icon button" id="play">
                         <i class="play icon"></i>
                     </button>
+                    
                     <button class="ui icon button" id="pause">
                         <i class="pause icon"></i>
                     </button>
@@ -117,5 +121,9 @@ q0, _, q0, 1, >
         <script src="/static/js/messages.js"></script>
         <script src="/static/js/editor.js"></script>
         <script src="/static/js/machine.js"></script>
-    </div></body>
+    </div>
+    <div class="ui inverted red segment" id="errorbox">
+            <p></p>
+    </div>
+    </body>
 </html>

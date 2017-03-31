@@ -28,9 +28,10 @@ This one might take a while, but when it's done there will be a virtual machine 
 And now we can serve the website locally:
 
     $ cd /vagrant
-    $ python tms.py
+    $ vg build
+    $ vg run
 
-If you now open this link: http://192.168.33.10:5000 you should see the tms website. Except this one is running on your machine, so changes we make here will be seen on the website.
+If you now open this link: http://192.168.33.10 you should see the tms website. Except this one is running on your machine, so changes we make here will be seen on the website.
 
 You can now edit the code and see the changes you make alter the local copy of the website. Start by changing something small to see if it works. Then think of a minor bugfix/improvement you can make and try that. WHen you're confident about making larger changes, go for it!
 

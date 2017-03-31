@@ -5,13 +5,17 @@ var tape = {
     load: function(contents) {
         contents = contents.replace(/\s/, "_");
         this.contents = contents.split("");
-        this.seek(0);
+        this.seek(0, true);
     },
 
-    write: function(value) {
+    write: function(value, render) {
         this.extend_to(this.head_at);
         this.contents[this.head_at] = value;
-        this.render();
+        if (render) {
+            this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
+        }
     },
 
     read: function() {
@@ -20,21 +24,33 @@ var tape = {
         return value;
     },
 
-    left: function() {
+    left: function(render) {
         this.head_at--;
         this.extend_to(this.head_at);
-        this.render();
+        if (render) {
+            this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
+        }
     },
 
-    right: function() {
+    right: function(render) {
         this.head_at++;
         this.extend_to(this.head_at);
-        this.render();
+        if (render) {
+            this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
+        }
     },
 
-    seek: function(position) {
+    seek: function(position, render) {
         this.head_at = position;
-        this.render();
+        if (render) {
+            this.render();
+        }else{
+            document.getElementById('load').style.display = "block";
+        }
     },
 
     render: function() {
@@ -48,10 +64,9 @@ var tape = {
             cells.push(cell);
         }
         $("#tape").children().remove();
-        $("#tape").append(cells);
-		
-		var returned = (this.head_at * 66) + 33;
-		$("#tape").scrollLeft(returned);
+        $("#tape").append(cells);	
+        var returned = (this.head_at * 66) + 33;
+        $("#tape").scrollLeft(returned);
     },
 	
     /**
@@ -83,13 +98,15 @@ var machine = {
     current_state_name: null,
     step: 0,
 
-    play: function() {
-        machine.transition(tape.read());
+    play: function(render) {
+        machine.transition(tape.read(), render);
+        var delay = parseInt($('.speed select').val());
+        delay = Math.max(delay, 0);
         setTimeout(function() {
             if(!machine.pause) {
-                machine.play();
+                machine.play(render);
             }
-        }, parseInt($('.speed select').val()));
+        }, delay);
     },
 
     hard_reset: function() {
@@ -148,8 +165,14 @@ var machine = {
         this.render();
     },
 
-    transition: function(input) {
+    transition: function(input, render) {
         if (this.halting_states.indexOf(this.current_state_name) !== -1) {
+            console.log(new Date());
+            tape.render();
+            this.render();
+            value = 0;
+            this.pause = true;
+            document.getElementById('load').style.display = "none";
             // Don't do anything, we're in a halting state, there's nowhere to go
             return;
         }
@@ -159,17 +182,19 @@ var machine = {
         } else {
             this.current_state_name = instructions.state;
             this.current_state = this.states[instructions.state];
-            tape.write(instructions.write);
+            tape.write(instructions.write, render);
             switch (instructions.move) {
                 case ">":
-                    tape.right();
+                    tape.right(render);
                     break;
                 case "<":
-                    tape.left();
+                    tape.left(render);
                     break;
             }
             this.step++;
-            this.render();
+            if (render) {
+                this.render();
+            }            
         }
     },
 
@@ -185,31 +210,38 @@ $(document).ready(function() {
     $('.ui.dropdown.speed').dropdown();
 
     $('.action.load-tape').click(function() {
-        tape.load($("#tape-input").val());
+        tape.load($("#tape-input").val(), true);
         machine.soft_reset();
         machine.render();
     });
 
     $('#play').click(function() {
+        console.log(new Date());
+        var render = parseInt($('.speed select').val()) !== -1;
         machine.pause = false;
-        machine.play();
+        machine.play(render);
     });
 
     $('#pause').click(function() {
         machine.pause = true;
+        document.getElementById('load').style.display = "none";
+        tape.render();
     });
 
     $('#stop').click(function() {
         if (!machine.pause) {
             machine.pause = true;
+            document.getElementById('load').style.display = "none";
         } else {
-            tape.load("");
+            tape.load("", true);
             machine.soft_reset();
             machine.render();
+            tape.render();
         }
     });
 
     $('#step').click(function() {
-        machine.transition(tape.read());
+        document.getElementById('load').style.display = "none";
+        machine.transition(tape.read(), true);
     });
 });
