@@ -32,9 +32,15 @@ q0, _, q0, 1, >
                 </textarea>
             </div>
             <div class="ui segment">
-                <div class="ui search selection dropdown left floated examples">
-                    Load file... <i class="dropdown icon"></i>
+                <div class="ui search selection dropdown examples">
+                    <input name="file" type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Load file...</div>
                     <div class="menu">
+                        <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input placeholder="Search files..." type="text">
+                        </div>
                         <div class="header">Standard</div>
                         {% for e in examples %}
                             <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
@@ -43,10 +49,10 @@ q0, _, q0, 1, >
                         <div class="item disabled custom">None yet :(</div>
                     </div>
                 </div>
-				<button class="ui blue labelled icon button right floated action save">
-					<i class="save icon"></i>
-					Save
-				</button>
+                <button class="ui blue labelled icon button action save">
+                    <i class="save icon"></i>
+                    Save
+                </button>
                 <button class="ui green labelled icon button right floated action compile">
                     <i class="wizard icon"></i>
                     Compile
