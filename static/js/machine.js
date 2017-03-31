@@ -123,6 +123,10 @@ var machine = {
         this.step = 0;
     },
 
+	save: function(code) {
+		this.hard_reset();
+		
+	
     compile: function(code) {
         this.hard_reset();
         var lines = code.split(/\r\n|\r|\n|\n\r/);

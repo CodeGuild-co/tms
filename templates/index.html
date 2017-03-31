@@ -32,11 +32,15 @@ q0, _, q0, 1, >
                 </textarea>
             </div>
             <div class="ui segment">
+				<button class="ui blue labelled icon button right floated action save" onclick="savealert()">
+					<i class="save icon"></i>
+					Save
+				</button>
                 <button class="ui green labelled icon button right floated action compile">
                     <i class="wizard icon"></i>
                     Compile
                 </button>
-                <div class="ui search selection dropdown examples">
+                <div class="ui search selection dropdown left floated examples">
                     Examples <i class="dropdown icon"></i>
                     <div class="menu">
                         <div class="header">Standard</div>
@@ -107,6 +111,9 @@ q0, _, q0, 1, >
             </div>
         </div>
 
+		<script> function savealert() {
+					alert("Copy the new URL to be able to access this code in the future. It is now saved!");
+				} </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.min.js"></script>
