@@ -214,6 +214,7 @@ $(document).ready(function() {
 
     $('#pause').click(function() {
         machine.pause = true;
+        machine.render();
         tape.render();
         $(".tape-container").removeClass("loading");
     });
