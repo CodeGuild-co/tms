@@ -1,6 +1,6 @@
 var messages = {
     message: function(state, header, body) {
-        var m = $("<div></div>", {"class": "ui errorbox"}),
+        var m = $("<div></div>", {"class": "ui message"}),
             i = $("<i></i>", {"class": "close icon"}),
             h = $("<div></div>", {"class": "header"}),
             b = $("<p></p>");
@@ -17,7 +17,7 @@ var messages = {
             m.transition('fade');
         });
 
-        $("#errorbox").append(m);
+        $(".errors").append(m);
     },
 
     info: function(msg) {
@@ -26,18 +26,10 @@ var messages = {
     },
 
     error: function(msg) {
-        messages.message("negative", "Something went wrong!", msg);
-        machine.pause = true;
-        popUpBox();
+        messages.message("red", "Something went wrong!", msg);
     },
 
     success: function(msg) {
-        messages.message("positive", "Yay!", msg);
+        messages.message("green", "Yay!", msg);
     }
 };
-
-function popUpBox(){
-    var popup = document.getElementById("errorbox");
-    popup.style.display = "block";
-    popup.scrollTop = popup.scrollHeight;
-}
