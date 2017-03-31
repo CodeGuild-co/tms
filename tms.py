@@ -16,14 +16,19 @@ def index():
 @app.route("/examples/<name>/")
 def get_example(name):
     try:
-        return render_template("examples/{}.txt".format(name))
+        return jsonify(code=render_template("examples/{}.txt".format(name)))
     except:
         abort(404)
 
 
 @app.route("/load/<id>/")
-def load(id):
-    return jsonify(code=r.get(id))
+def list_custom(id):
+    return jsonify(names=r.hkeys(id))
+
+
+@app.route("/load/<id>/<name>/")
+def load_custom(id, name):
+    return jsonify(code=r.hget(id, name))
 
 
 @app.route('/save/', methods=['POST'])
@@ -31,8 +36,13 @@ def load(id):
 def save(id=None):
     if id is None:
         id = uuid.uuid4()
-    r.set(id, request.get_json()['code'])
-    return jsonify(id=id)
+    code = request.get_json()['code']
+    for l in code.splitlines():
+        if l.startswith('name:'):
+            name = l[5:].strip()
+            break
+    r.hset(id, name, code)
+    return jsonify(id=id, name=name)
 
 
 def load_examples():

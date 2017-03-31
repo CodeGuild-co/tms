@@ -32,6 +32,17 @@ q0, _, q0, 1, >
                 </textarea>
             </div>
             <div class="ui segment">
+                <div class="ui search selection dropdown left floated examples">
+                    Load file... <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="header">Standard</div>
+                        {% for e in examples %}
+                            <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
+                        {% endfor %}
+                        <div class="header">Custom</div>
+                        <div class="item disabled custom">None yet :(</div>
+                    </div>
+                </div>
 				<button class="ui blue labelled icon button right floated action save">
 					<i class="save icon"></i>
 					Save
@@ -40,17 +51,6 @@ q0, _, q0, 1, >
                     <i class="wizard icon"></i>
                     Compile
                 </button>
-                <div class="ui search selection dropdown left floated examples">
-                    Examples <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <div class="header">Standard</div>
-                        {% for e in examples %}
-                            <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
-                        {% endfor %}
-                        <div class="header">Custom</div>
-                        <div class="item disabled">None yet :(</div>
-                    </div>
-                </div>
             </div>
         </div>
         <!--<div id="messages"></div>-->
@@ -74,8 +74,6 @@ q0, _, q0, 1, >
                         Load Tape
                     </button>
                 </div>
-            </div>
-            <div id = "load" class="ui loading segment">
             </div>
             <div class="ui segment tape-container">
                 <div id="tape"></div>

@@ -96,7 +96,3 @@ body {
     left:90%;
     top:50%;
 }
-.loading {
-    display: none;
-    z-index: 1;
-}

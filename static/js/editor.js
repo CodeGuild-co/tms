@@ -2,34 +2,39 @@ var editor;
 
 $(document).ready(function() {
 
-    function load_example() {
+    function load_file(id) {
         var name = $('.ui.dropdown.examples').dropdown('get value');
         if (name) {
-            $(".examples").addClass("loading").removeClass("error");
-            var xhr = $.get("/examples/" + name + "/");
+            var item = $('.ui.dropdown.examples').dropdown('get item', name);
+            var url;
+            if (item.is(".custom")) {
+                url = "/load/" + id + "/" + name + "/";
+            } else {
+                url = "/examples/" + name + "/";
+            }
+            $("#editor-container").addClass("loading").removeClass("error");
+            var xhr = $.get(url);
             xhr.done(function(example) {
-                editor.setValue(example);
+                editor.setValue(example.code);
             });
             xhr.fail(function() {
                 messages.error("Couldn't load that code, sorry :(");
-                $(".examples").addClass("error");
+                $("#editor-container").addClass("error");
             });
             xhr.always(function() {
-                $(".examples").removeClass("loading");
+                $("#editor-container").removeClass("loading");
+                var hash = "name=" + name;
+                if (id) {
+                    hash += "&id=" + id;
+                }
+                window.location.hash = hash;
             });
+            return xhr;
         }
     }
 
-    function get_id() {
-        var s = window.location.search;
-        if (s.indexOf("=")) {
-            return s.split("=")[1];
-        }
-    }
-
-	function save() {
+	function save(id) {
 		var code = editor.getValue(),
-            id = get_id(),
             url = "/save/";
         if (id) {
             url += id + "/";
@@ -41,8 +46,12 @@ $(document).ready(function() {
             contentType: 'application/json',
         });
         xhr.done(function(data) {
-            alert("Bookmark this page to come back to your code later!");
-            window.location.search = "id=" + data.id;
+            window.location.hash = "id=" + data.id + "&name=" + encodeURIComponent(data.name);
+            var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
+            if (!item || !item.is(".custom")) {
+                add_custom(data.name);
+            }
+            $('.ui.dropdown.examples').dropdown('set selected', data.name);
         });
         xhr.fail(function() {
             messages.error("Couldn't save your code, sorry :(");
@@ -51,28 +60,56 @@ $(document).ready(function() {
         xhr.always(function() {
             $(".save").removeClass("loading");
         });
+        return xhr;
 	}
 
-    function load() {
-        var id = get_id();
-        if (id) {
-            $(".save").addClass("loading").removeClass("error");
-            var xhr = $.get("/load/" + id + "/");
-            xhr.done(function(data) {
-                editor.setValue(data.code);
-            });
-            xhr.fail(function() {
-                messages.error("Couldn't load that code, sorry :(");
-                $(".save").addClass("error");
-            });
-            xhr.always(function() {
-                $(".save").removeClass("loading");
-            });
+    function add_custom(name, menu) {
+        if (menu === undefined) {
+            menu = $(".ui.dropdown.examples .menu");
         }
+        var div = $("<div class='item custom'></div>");
+        div.text(name);
+        div.attr("data-value", name);
+        menu.append(div);
+        return div;
+    }
+
+    function list_custom(id) {
+        $("#editor-container").addClass("loading").removeClass("error");
+        var xhr = $.get("/load/" + id + "/");
+        xhr.done(function(data) {
+            $(".ui.dropdown.examples .menu .custom").remove();
+            var menu = $(".ui.dropdown.examples .menu");
+            $.each(data.names, function(i, name) {
+                add_custom(name, menu);
+            });
+            $(".ui.dropdown.examples").dropdown('refresh');
+        });
+        xhr.fail(function() {
+            messages.error("Couldn't load that code, sorry :(");
+            $("#editor-container").addClass("error");
+        });
+        xhr.always(function() {
+            $("#editor-container").removeClass("loading");
+        });
+        return xhr;
     }
 
     function compile() {
         machine.compile(editor.getValue());
+    }
+
+    function parse_hash() {
+        var pairs = window.location.hash.substring(1).split("&"),
+            obj = {},
+            pair,
+            i;
+        for (i in pairs) {
+            if (pairs[i] === "") continue;
+            pair = pairs[i].split("=");
+            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+        return obj;
     }
 
     editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
@@ -81,11 +118,28 @@ $(document).ready(function() {
     });
 
     $('.ui.dropdown.examples').dropdown({
-        onChange: load_example
+        onChange: function() {
+            load_file(hash.id);
+        }
     });
 
     $('.action.compile').click(compile);
-    $('.action.save').click(save);
+    $('.action.save').click(function() {
+        save(hash.id);
+    });
 
-    load();
+    var hash = parse_hash();
+    if (hash.id) {
+        var p = list_custom(hash.id);
+        if (hash.name) {
+            p.done(function() {
+                $('.ui.dropdown.examples').dropdown('set selected', hash.name);
+                $('.ui.dropdown.examples').dropdown('refresh');
+            });
+        }
+    } else if (hash.name) {
+        $('.ui.dropdown.examples').dropdown('set selected', hash.name);
+        $('.ui.dropdown.examples').dropdown('refresh');
+    }
+    compile();
 });
