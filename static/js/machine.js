@@ -160,6 +160,7 @@ var machine = {
             $(".tape-container").removeClass("loading");
             value = 0;
             this.pause = true;
+            messages.success("Halted!", true);
             // Don't do anything, we're in a halting state, there's nowhere to go
             return;
         }

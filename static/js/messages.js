@@ -1,6 +1,6 @@
 var messages = {
-    message: function(state, header, body) {
-        var m = $("<div></div>", {"class": "ui message"}),
+    message: function(state, header, body, auto_hide) {
+        var m = $("<div></div>", {"class": "ui mini message"}),
             i = $("<i></i>", {"class": "close icon"}),
             h = $("<div></div>", {"class": "header"}),
             b = $("<p></p>");
@@ -13,23 +13,29 @@ var messages = {
         m.append(h);
         m.append(b);
 
-        i.click(function() {
+        m.click(function() {
             m.transition('fade');
         });
+
+        if (auto_hide) {
+            setTimeout(function() {
+                m.transition('fade');
+            }, 2000);
+        }
 
         $(".errors").append(m);
     },
 
-    info: function(msg) {
-        messages.message("", "", msg);
+    info: function(msg, auto_hide) {
+        messages.message("info", "FYI", msg, auto_hide);
         machine.pause = true;
     },
 
-    error: function(msg) {
-        messages.message("red", "Something went wrong!", msg);
+    error: function(msg, auto_hide) {
+        messages.message("red", "Something went wrong!", msg, auto_hide);
     },
 
-    success: function(msg) {
-        messages.message("green", "Yay!", msg);
+    success: function(msg, auto_hide) {
+        messages.message("green", "Yay!", msg, auto_hide);
     }
 };

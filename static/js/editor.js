@@ -16,6 +16,7 @@ $(document).ready(function() {
             var xhr = $.get(url);
             xhr.done(function(example) {
                 editor.setValue(example.code);
+                messages.success("File loaded!", true);
             });
             xhr.fail(function() {
                 messages.error("Couldn't load that code, sorry :(");
@@ -52,6 +53,8 @@ $(document).ready(function() {
                 add_custom(data.name);
             }
             $('.ui.dropdown.examples').dropdown('set selected', data.name);
+            messages.success("File saved!", true);
+            messages.info("Bookmark this page to come back to your work later", true);
         });
         xhr.fail(function() {
             messages.error("Couldn't save your code, sorry :(");
