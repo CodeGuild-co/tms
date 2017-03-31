@@ -52,7 +52,6 @@ $(document).ready(function() {
             if (!item || !item.is(".custom")) {
                 add_custom(data.name);
             }
-            $('.ui.dropdown.examples').dropdown('set selected', data.name);
             messages.success("File saved!", true);
             messages.info("Bookmark this page to come back to your work later", true);
         });
