@@ -64,11 +64,11 @@ var tape = {
             cells.push(cell);
         }
         $("#tape").children().remove();
-        $("#tape").append(cells);	
+        $("#tape").append(cells);
         var returned = (this.head_at * 66) + 33;
         $("#tape").scrollLeft(returned);
     },
-	
+
     /**
      * Extend the size of the tape to ensure that the head can point at index
      **/
@@ -123,10 +123,6 @@ var machine = {
         this.step = 0;
     },
 
-	save: function(code) {
-		this.hard_reset();
-		
-	
     compile: function(code) {
         this.hard_reset();
         var lines = code.split(/\r\n|\r|\n|\n\r/);
@@ -194,7 +190,7 @@ var machine = {
             this.step++;
             if (render) {
                 this.render();
-            }            
+            }
         }
     },
 

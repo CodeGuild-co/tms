@@ -1,9 +1,11 @@
 import uuid
 import os
+import redis
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request, jsonify
 
 app = Flask(__name__)
+r = redis.StrictRedis.from_url(os.environ['REDIS_URL'], decode_responses=True)
 
 
 @app.route("/")
@@ -21,9 +23,7 @@ def get_example(name):
 
 @app.route("/load/<id>/")
 def load(id):
-    # Get source code from redis
-    # Send back as JSON object
-    pass
+    return jsonify(code=r.get(id))
 
 
 @app.route('/save/', methods=['POST'])
@@ -31,10 +31,8 @@ def load(id):
 def save(id=None):
     if id is None:
         id = uuid.uuid4()
-    # Get source code from request body
-    # Save code to redis using ID
-    # Return json object with id
-    pass
+    r.set(id, request.get_json()['code'])
+    return jsonify(id=id)
 
 
 def load_examples():
