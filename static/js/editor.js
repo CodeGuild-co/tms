@@ -20,6 +20,10 @@ $(document).ready(function() {
         }
     }
 
+	function save() {
+		machine.save(editor.getValue());
+	}
+	
     function compile() {
         machine.compile(editor.getValue());
     }
@@ -28,7 +32,7 @@ $(document).ready(function() {
         mode: "text/html",
         lineNumbers: true
     });
-
+	
     $('.ui.dropdown.examples').dropdown({
         onChange: load_example
     });
