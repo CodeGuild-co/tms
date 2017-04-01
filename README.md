@@ -1,5 +1,7 @@
 # TMS
 
+[![Join the chat at https://gitter.im/CodeGuild-co/tms](https://badges.gitter.im/CodeGuild-co/tms.svg)](https://gitter.im/CodeGuild-co/tms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An online Turing Machine Simulator
 
 ## Making Changes
