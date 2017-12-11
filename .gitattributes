@@ -1,1 +1,3 @@
+core.autocrlf false
+* text=auto
 text eol=lf
