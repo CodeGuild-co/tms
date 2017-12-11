@@ -48,6 +48,10 @@ $(document).ready(function() {
         });
         xhr.done(function(data) {
             window.location.hash = "id=" + data.id + "&name=" + encodeURIComponent(data.name);
+            hash = {
+                id: data.id,
+                name: data.name
+            }
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
                 add_custom(data.name);
