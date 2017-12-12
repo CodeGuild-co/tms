@@ -52,6 +52,9 @@ $(document).ready(function() {
                 id: data.id,
                 name: data.name
             }
+            if (!id) {
+                $(".ui.dropdown.examples .menu .custom").remove();
+            }
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
                 add_custom(data.name);
@@ -77,6 +80,7 @@ $(document).ready(function() {
         div.text(name);
         div.attr("data-value", name);
         menu.append(div);
+
         return div;
     }
 

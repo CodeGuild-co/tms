@@ -51,7 +51,33 @@ removezero,6,goBack,6,>
 removezero,7,goBack,7,>
 removezero,8,goBack,8,>
 removezero,9,goBack,9,>
-removezero,_,qfin,_,>
+removezero,_,qchange,_,>
+
+qchange, 1, qchange, i, >
+qchange, 0, qchange, o, >
+qchange, _, qflip, _, <
+qflip, i, qnewi, j,>
+qflip, o, qnewo, Q, >
+qflip, j, qflip, j, <
+qflip,1, qflip, 1, <
+qflip,0, qflip,0, <
+qflip, Q, qflip, Q, <
+qflip, _, qreplace, _, >
+qnewi, 0, qnewi, 0, >
+qnewi, 1, qnewi, 1, >
+qnewi, j, qnewi, j, >
+qnewi, Q, qnewi, Q, >
+qnewi, _, qflip, 1,<
+qnewo,_, qflip, 0, <
+qnewo, 0, qnewo, 0, >
+qnewo, 1, qnewo, 1, >
+qnewo, j, qnewo, j, >
+qnewo, Q, qnewo, Q, >
+
+qreplace, j, qreplace, _, >
+qreplace, Q, qreplace, _,>
+qreplace, 1, qfin, 1,>
+qreplace, 0, qfin, 0, >
 
 goBack,0,goBack,0,>
 goBack,1,goBack,1,>
