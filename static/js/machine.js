@@ -167,6 +167,7 @@ var machine = {
         var instructions = this.current_state[input];
         if (!instructions) {
             messages.error("Error no transition from " + this.current_state_name + " reading " + input);
+            machine.pause = true;
         } else {
             this.current_state_name = instructions.state;
             this.current_state = this.states[instructions.state];
