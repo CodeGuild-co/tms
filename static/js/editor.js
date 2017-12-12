@@ -76,8 +76,6 @@ $(document).ready(function() {
         if (menu === undefined) {
             menu = $(".ui.dropdown.examples .menu");
         }
-        console.log(menu);
-        console.log(menu.length);
         var div = $("<div class='item custom'></div>");
         div.text(name);
         div.attr("data-value", name);
