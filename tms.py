@@ -5,6 +5,7 @@ import redis
 from flask import Flask, render_template, abort, request, jsonify, session
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 r = redis.StrictRedis.from_url(os.environ['REDIS_URL'], decode_responses=True)
 
 
@@ -21,14 +22,14 @@ def get_example(name):
         abort(404)
 
 
-@app.route("/load/<id>/")
-def list_custom(id):
+@app.route("/load/<userid>/")
+def list_custom(userid):
     userid = session.get('userid')
     return jsonify(names=r.hkeys(id))
 
 
-@app.route("/load/<id>/<name>/")
-def load_custom(id, name):
+@app.route("/load/<userid>/<name>/")
+def load_custom(userid, name):
     return jsonify(code=r.hget(id, name))
 
 
@@ -42,7 +43,7 @@ def login():
     elif password != input['password']:
         abort(401)
     session['userid'] = input['userid']
-    return 'OK'
+    return 'ok'
 
 
 
@@ -51,21 +52,18 @@ def login():
         # if user found and password matches
         # if user found but password doesn't match
     # if user not found
-    r.set('user-{}'.format(userid), password)
+    
 
-"""
 @app.route('/save/', methods=['POST'])
-@app.route('/save/<id>/', methods=['POST'])
-def save(id=None):
-    if id is None:
-        id = uuid.uuid4()
+def save():
+    userid = session.get('userid')
     code = request.get_json()['code']
     for l in code.splitlines():
         if l.startswith('name:'):
             name = l[5:].strip()
             break
     r.hset(id, name, code)
-    return jsonify(id=id, name=name)"""
+    return jsonify(userid=id, name=name)
 
 
 def load_examples():
