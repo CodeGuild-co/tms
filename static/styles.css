@@ -8,7 +8,11 @@ div.right.floated {
 }
 
 .ui.header.center.aligned {
-    padding-top:20px;
+    padding-top: 35px;
+}
+
+.ui.login {
+    width: 5%;
 }
 
 #editor-container {

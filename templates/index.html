@@ -13,13 +13,15 @@
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
     <body><div class="ui container">
-        <h1 class="ui header center aligned">Turing Machine Simulator</h1>
-
+        <h1 class="ui header center aligned" style="display: inline-block; height: 100px;">Turing Machine Simulator</h1>
+        <div class="ui segment" style="width: 35%; float: right;">
+            <input type="text" name="Username" placeholder="Username" style="width: 75%;font-size:11pt;"><br>
+            <input type="password" name="Password" placeholder="Password" style="width: 75%;font-size:11pt;">
+        </div>
         <div class="ui segments">
             <div class="ui segment">
                 <h2 class="ui header">Code</h2>
             </div>
-
             <div class="ui segment" id="editor-container">
                 <textarea id="code-editor">
 name: Print All the Ones
@@ -46,7 +48,7 @@ q0, _, q0, 1, >
                             <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
                         {% endfor %}
                         <div class="header">Custom</div>
-                        <div class="item disabled custom">None yet :(</div>
+                        <div class="item disabled custom" visible = "false" >None yet :(</div>
                     </div>
                 </div>
                 <button class="ui blue labelled icon button action save">
@@ -55,7 +57,7 @@ q0, _, q0, 1, >
                 </button>
                 <button class="ui green labelled icon button right floated action compile">
                     <i class="wizard icon"></i>
-                    Compile
+                    compile
                 </button>
             </div>
         </div>
