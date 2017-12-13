@@ -42,14 +42,16 @@ def login():
     elif password != input['password']:
         abort(401)
     session['userid'] = input['userid']
-    r.set('user-{}'.format(userid), password)
     return 'OK'
+
+
+
 
     # if user found
         # if user found and password matches
         # if user found but password doesn't match
     # if user not found
-
+    r.set('user-{}'.format(userid), password)
 
 """
 @app.route('/save/', methods=['POST'])
