@@ -2,7 +2,7 @@ import uuid
 import os
 import redis
 
-from flask import Flask, render_template, abort, request, jsonify, session
+from flask import Flask, render_template, abort, request, jsonify
 
 app = Flask(__name__)
 r = redis.StrictRedis.from_url(os.environ['REDIS_URL'], decode_responses=True)
@@ -23,7 +23,6 @@ def get_example(name):
 
 @app.route("/load/<id>/")
 def list_custom(id):
-    userid = session.get('userid')
     return jsonify(names=r.hkeys(id))
 
 
@@ -32,28 +31,6 @@ def load_custom(id, name):
     return jsonify(code=r.hget(id, name))
 
 
-@app.route("/login/", methods=['POST'])
-def login():
-    input = request.get_json()
-    key = 'user-{}'.format(input['userid']) 
-    password = r.get(key)
-    if password is None: 
-        r.set(key, input['password']) 
-    elif password != input['password']:
-        abort(401)
-    session['userid'] = input['userid']
-    return 'OK'
-
-
-
-
-    # if user found
-        # if user found and password matches
-        # if user found but password doesn't match
-    # if user not found
-    r.set('user-{}'.format(userid), password)
-
-"""
 @app.route('/save/', methods=['POST'])
 @app.route('/save/<id>/', methods=['POST'])
 def save(id=None):
@@ -65,7 +42,7 @@ def save(id=None):
             name = l[5:].strip()
             break
     r.hset(id, name, code)
-    return jsonify(id=id, name=name)"""
+    return jsonify(id=id, name=name)
 
 
 def load_examples():
