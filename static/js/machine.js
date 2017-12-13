@@ -57,8 +57,30 @@ var tape = {
         }
         $("#tape").children().remove();
         $("#tape").append(cells);
-        var returned = (this.head_at * 66) + 33;
-        $("#tape").scrollLeft(returned);
+        
+        var movement = $('.movement select').val();
+        $("#tape").removeClass("move-head");
+        switch (movement) {
+            case "static":
+                break;
+            case "head":
+                $("#tape").addClass("move-head");
+                var returned = (this.head_at * 66) + 33;
+                $("#tape").scrollLeft(returned);
+                break;
+            case "necessary":
+                var returned = (this.head_at * 66) + 33;
+                $("#tape").scrollLeft(returned);
+                break;
+            case "left":
+                $("#tape").scrollLeft(0);
+                break;
+            case "right":
+                $("#tape").scrollLeft($("#tape")[0].scrollWidth);
+                break;
+        }
+
+        
     },
 
     /**
@@ -197,6 +219,7 @@ var machine = {
 
 $(document).ready(function() {
     $('.ui.dropdown.speed').dropdown();
+    $('.ui.dropdown.movement').dropdown();
 
     $('.action.load-tape').click(function() {
         tape.load($("#tape-input").val(), true);
