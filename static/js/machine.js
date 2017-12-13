@@ -60,6 +60,30 @@ var tape = {
         var returned = (this.head_at * 66) + 33;
         $("#tape").scrollLeft(returned);
     },
+    tidy: function() {
+        var valueToRemove = 0
+        for (var i = 0; i<this.contents.length; i++) {
+            var cell = this.contents[i]
+            if (cell === "_" || cell === " " || cell === "") {
+            }else {
+                valueToRemove = i
+                break
+            }
+        }
+        this.contents = this.contents.slice(valueToRemove) ;
+
+        for (var x = this.contents.length -1; x>=0; x--) {
+            var endCell = this.contents[x]
+            if (endCell === "_" || endCell === " " || endCell === "") {
+            }else{
+                valueToRemove = x
+                break
+            }
+        }
+        this.contents = this.contents.slice(0,valueToRemove+1);
+        this.render();
+        
+    },
 
     /**
      * Extend the size of the tape to ensure that the head can point at index
@@ -69,7 +93,7 @@ var tape = {
             this.contents.push("_");
             return;
         }
-        while (index < 0) {
+        while (index < 0 ) {
             this.contents.splice(0, 0, '_');
             index++;
             this.head_at++;
@@ -230,6 +254,10 @@ $(document).ready(function() {
             tape.render();
         }
         $(".tape-container").removeClass("loading");
+    });
+
+    $('#tidy').click(function() {
+        tape.tidy();
     });
 
     $('#step').click(function() {
