@@ -22,15 +22,19 @@ def get_example(name):
         abort(404)
 
 
-@app.route("/load/<userid>/")
-def list_custom(userid):
+@app.route("/load/")
+def list_custom():
     userid = session.get('userid')
-    return jsonify(names=r.hkeys(id))
+    if userid is None:
+        return jsonify(names=None)    
+    else:
+        return jsonify(names=r.hkeys('machines-' + userid))
 
 
-@app.route("/load/<userid>/<name>/")
-def load_custom(userid, name):
-    return jsonify(code=r.hget(id, name))
+@app.route("/load/<name>/")
+def load_custom(name):
+    userid = session.get('userid')
+    return jsonify(code=r.hget('machines-' + userid, name))
 
 
 @app.route("/login/", methods=['POST'])
@@ -44,27 +48,21 @@ def login():
         abort(401)
     session['userid'] = input['userid']
     return 'ok'
-
-
-
-
-    # if user found
-        # if user found and password matches
-        # if user found but password doesn't match
-    # if user not found
     
 
 @app.route('/save/', methods=['POST'])
 def save():
     userid = session.get('userid')
+    if userid is None:
+        abort(403)
     code = request.get_json()['code']
     for l in code.splitlines():
         if l.startswith('name:'):
             name = l[5:].strip()
-            break
-    r.hset(id, name, code)
-    return jsonify(userid=id, name=name)
-
+            break    
+    key = 'machines-{}'.format(userid)
+    r.hset(key, name, code)
+    return jsonify(name=name)
 
 def load_examples():
     path = os.path.join("templates", "examples")

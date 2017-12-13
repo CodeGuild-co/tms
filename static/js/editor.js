@@ -2,13 +2,13 @@ var editor;
 
 $(document).ready(function() {
 
-    function load_file(id) {
+    function load_file() {
         var name = $('.ui.dropdown.examples').dropdown('get value');
         if (name) {
             var item = $('.ui.dropdown.examples').dropdown('get item', name);
             var url;
             if (item.is(".custom")) {
-                url = "/load/" + id + "/" + name + "/";
+                url = "/load/" + name + "/";
             } else {
                 url = "/examples/" + name + "/";
             }
@@ -25,21 +25,15 @@ $(document).ready(function() {
             xhr.always(function() {
                 $("#editor-container").removeClass("loading");
                 var hash = "name=" + name;
-                if (id) {
-                    hash += "&id=" + id;
-                }
                 window.location.hash = hash;
             });
             return xhr;
         }
     }
 
-	function save(id) {
+	function save() {
 		var code = editor.getValue(),
             url = "/save/";
-        if (id) {
-            url += id + "/";
-        }
         $(".save").addClass("loading").removeClass("error");
         var xhr = $.ajax(url, {
             type: 'POST',
@@ -47,14 +41,11 @@ $(document).ready(function() {
             contentType: 'application/json',
         });
         xhr.done(function(data) {
-            window.location.hash = "id=" + data.id + "&name=" + encodeURIComponent(data.name);
+            window.location.hash = "name=" + encodeURIComponent(data.name);
             hash = {
-                id: data.id,
                 name: data.name
             }
-            if (!id) {
-                $(".ui.dropdown.examples .menu .custom").remove();
-            }
+            //$(".ui.dropdown.examples .menu .custom").remove();
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
                 add_custom(data.name);
@@ -80,14 +71,25 @@ $(document).ready(function() {
         div.text(name);
         div.attr("data-value", name);
         menu.append(div);
-
         return div;
     }
 
-    function list_custom(id) {
+    function list_custom() {
         $("#editor-container").addClass("loading").removeClass("error");
-        var xhr = $.get("/load/" + id + "/");
+        var xhr = $.get("/load/");
         xhr.done(function(data) {
+            if (data.names === null) {
+                // You're not logged in
+                // Show login box
+                // Hide signout button
+                // Show "None yet" in list
+            } else {
+                // You are logged in
+                // Hide login box
+                // Show signout button
+                // Remove "none yet"
+                // List machines names
+            }
             $(".ui.dropdown.examples .menu .custom").remove();
             var menu = $(".ui.dropdown.examples .menu");
             $.each(data.names, function(i, name) {
@@ -129,27 +131,22 @@ $(document).ready(function() {
 
     $('.ui.dropdown.examples').dropdown({
         onChange: function() {
-            load_file(hash.id);
+            load_file();
         }
     });
 
     $('.action.compile').click(compile);
     $('.action.save').click(function() {
-        save(hash.id);
+        save();
     });
 
     var hash = parse_hash();
-    if (hash.id) {
-        var p = list_custom(hash.id);
-        if (hash.name) {
-            p.done(function() {
-                $('.ui.dropdown.examples').dropdown('set selected', hash.name);
-                $('.ui.dropdown.examples').dropdown('refresh');
-            });
-        }
-    } else if (hash.name) {
-        $('.ui.dropdown.examples').dropdown('set selected', hash.name);
-        $('.ui.dropdown.examples').dropdown('refresh');
+    var p = list_custom();
+    if (hash.name) {
+        p.done(function() {
+            $('.ui.dropdown.examples').dropdown('set selected', hash.name);
+            $('.ui.dropdown.examples').dropdown('refresh');
+        });
     }
     compile();
 });

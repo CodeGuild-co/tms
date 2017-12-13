@@ -11,7 +11,6 @@ $(document).ready(function() {
 
         var userid = $("[name=Username]").val()
         var password = $("[name=Password]").val()
-        console.log("var works")
 
         $('.action.login').addClass("loading").removeClass("error");
         var xhr = $.ajax("/login/", {
@@ -21,13 +20,11 @@ $(document).ready(function() {
         });
         xhr.done(function() {
             $('.action.login').removeClass("loading");
-            console.log(arguments);
             messages.success("nice", true)
             // Load machines
         });
         xhr.fail(function() {
-            $('.action.login').addClass("error").removeClass("loading");
-            console.log(arguments);
+            $('.action.login').addClass("error").removeClass("loading");;
             messages.error("not nice", true)
         });
     }
