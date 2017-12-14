@@ -41,6 +41,7 @@ var editor = {
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
                 editor.add_custom(data.name);
+                $(".ui.dropdown.examples .menu .custom.disabled").remove();
             }
             messages.success("File saved!", true);
         });
@@ -75,8 +76,10 @@ var editor = {
             } else {
                 $(".user .login").hide();
                 $(".user .logout").show();
+                if (data.names.length) {
+                    $(".ui.dropdown.examples .menu .custom").remove();
+                }
             }
-            $(".ui.dropdown.examples .menu .custom").remove();
             var menu = $(".ui.dropdown.examples .menu");
             $.each(data.names, function(i, name) {
                 editor.add_custom(name, menu);
