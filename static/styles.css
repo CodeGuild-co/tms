@@ -1,4 +1,4 @@
-div.right.floated {
+/*div.right.floated {
     float: right;
     margin-right: 0.25em;
 }
@@ -9,10 +9,29 @@ div.right.floated {
 
 .ui.header.center.aligned {
     padding-top: 35px;
+    display: inline-block;
 }
 
-.ui.login {
-    width: 5%;
+.ui.gg.button {
+    display: block;
+    float: right;
+}
+
+.ui.user {
+    margin-left: 70%;
+}*/
+
+.top.top {
+    margin-top: 20px;
+}
+
+.user {
+    width: 225px;
+    float: right;
+}
+
+.user .input {
+    margin-bottom: 5px;
 }
 
 #editor-container {

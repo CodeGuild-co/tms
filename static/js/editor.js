@@ -45,7 +45,6 @@ $(document).ready(function() {
             hash = {
                 name: data.name
             }
-            //$(".ui.dropdown.examples .menu .custom").remove();
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
                 add_custom(data.name);
@@ -81,11 +80,9 @@ $(document).ready(function() {
             if (data.names === null) {
                 $(".user .login").show();
                 $(".user .logout").hide();
-                // Show "None yet" in list
             } else {
                 $(".user .login").hide();
                 $(".user .logout").show();
-                // get sign out button to sign out
             }
             $(".ui.dropdown.examples .menu .custom").remove();
             var menu = $(".ui.dropdown.examples .menu");

@@ -23,6 +23,8 @@ $(document).ready(function() {
             messages.success("nice", true);
             $(".user .login").hide();
             $(".user .logout").show();
+            location.reload();
+            window.location.assign(location)
             // Load machines
         });
         xhr.fail(function() {
