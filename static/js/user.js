@@ -20,7 +20,9 @@ $(document).ready(function() {
         });
         xhr.done(function() {
             $('.action.login').removeClass("loading");
-            messages.success("nice", true)
+            messages.success("nice", true);
+            $(".user .login").hide();
+            $(".user .logout").show();
             // Load machines
         });
         xhr.fail(function() {

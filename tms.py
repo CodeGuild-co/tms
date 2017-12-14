@@ -2,7 +2,7 @@ import uuid
 import os
 import redis
 
-from flask import Flask, render_template, abort, request, jsonify, session
+from flask import Flask, render_template, abort, request, jsonify, session, redirect, url_for
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
@@ -48,6 +48,11 @@ def login():
         abort(401)
     session['userid'] = input['userid']
     return 'ok'
+
+@app.route('/logout/')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
     
 
 @app.route('/save/', methods=['POST'])

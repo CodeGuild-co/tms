@@ -79,16 +79,13 @@ $(document).ready(function() {
         var xhr = $.get("/load/");
         xhr.done(function(data) {
             if (data.names === null) {
-                // You're not logged in
-                // Show login box
-                // Hide signout button
+                $(".user .login").show();
+                $(".user .logout").hide();
                 // Show "None yet" in list
             } else {
-                // You are logged in
-                // Hide login box
-                // Show signout button
-                // Remove "none yet"
-                // List machines names
+                $(".user .login").hide();
+                $(".user .logout").show();
+                // get sign out button to sign out
             }
             $(".ui.dropdown.examples .menu .custom").remove();
             var menu = $(".ui.dropdown.examples .menu");
@@ -136,9 +133,7 @@ $(document).ready(function() {
     });
 
     $('.action.compile').click(compile);
-    $('.action.save').click(function() {
-        save();
-    });
+    $('.action.save').click(save);
 
     var hash = parse_hash();
     var p = list_custom();

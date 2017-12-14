@@ -14,10 +14,16 @@
     </head>
     <body><div class="ui container">
         <h1 class="ui header center aligned" style="display: inline-block; height: 100px;">Turing Machine Simulator</h1>
-        <div class="ui segment" style="width: 35%; float: right;">
-            <button class="ui icon button action login green" style="margin-left: 9px; float: right; margin-top: 8px">Log in</button>            
-            <input type="text" name="Username" placeholder="Username" style="width: 75%;font-size:11pt;"><br>
-            <input type="password" name="Password" placeholder="Password" style="width: 75%;font-size:11pt;">
+        <div class="ui segment user" style="width: 35%; float: right;">
+            <div class="login">
+                <button id="login" class="ui icon button action login green" style="width: 15%; float: right;">Log in</button>
+                <input id="username" type="text" name="Username" placeholder="Username" style="width: 60%;font-size:11pt;"><br>
+                <input id="password" type="password" name="Password" placeholder="Password" style="width: 60%;font-size:11pt;">
+            </div>
+            <div class="logout">
+                <p id="signin message" style="display: inline-block;">You are signed in.</p>
+                <a href="{{ url_for('logout') }}" class="ui icon button action logout green" style="float: right; width: 15%;">Log out</a>
+            </div>
         </div>
         <div class="ui segments">
             <div class="ui segment">
