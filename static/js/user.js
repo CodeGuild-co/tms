@@ -1,8 +1,5 @@
-var user;
-
-$(document).ready(function() {
-
-    function login() {
+var user = {
+    login: function() {
         var userid = $("[name=Username]").val()
         var password = $("[name=Password]").val()
 
@@ -17,14 +14,15 @@ $(document).ready(function() {
             messages.success("You have been logged in.", true);
             $(".user .login").hide();
             $(".user .logout").show();
-            list_custom();
+            editor.list_custom();
         });
         xhr.fail(function() {
             $('.action.login').addClass("error").removeClass("loading");;
             messages.error("The password you entered is incorrect.", true)
         });
     }
-        
+};
 
-    $('.action.login').click(login);
+$(document).ready(function() {
+    $('.action.login').click(user.login);
 });

@@ -1,8 +1,5 @@
-var editor;
-
-$(document).ready(function() {
-
-    function load_file() {
+var editor = {
+    load_file: function() {
         var name = $('.ui.dropdown.examples').dropdown('get value');
         if (name) {
             var item = $('.ui.dropdown.examples').dropdown('get item', name);
@@ -15,7 +12,7 @@ $(document).ready(function() {
             $("#editor-container").addClass("loading").removeClass("error");
             var xhr = $.get(url);
             xhr.done(function(example) {
-                editor.setValue(example.code);
+                editor.cm.setValue(example.code);
                 messages.success("File loaded!", true);
             });
             xhr.fail(function() {
@@ -24,15 +21,14 @@ $(document).ready(function() {
             });
             xhr.always(function() {
                 $("#editor-container").removeClass("loading");
-                var hash = "name=" + name;
-                window.location.hash = hash;
+                window.location.hash = "name=" + encodeURIComponent(name);
             });
             return xhr;
         }
-    }
+    },
 
-	function save() {
-		var code = editor.getValue(),
+    save: function() {
+        var code = editor.cm.getValue(),
             url = "/save/";
         $(".save").addClass("loading").removeClass("error");
         var xhr = $.ajax(url, {
@@ -42,15 +38,11 @@ $(document).ready(function() {
         });
         xhr.done(function(data) {
             window.location.hash = "name=" + encodeURIComponent(data.name);
-            hash = {
-                name: data.name
-            }
             var item = $('.ui.dropdown.examples').dropdown('get item', data.name);
             if (!item || !item.is(".custom")) {
-                add_custom(data.name);
+                editor.add_custom(data.name);
             }
             messages.success("File saved!", true);
-            messages.info("Bookmark this page to come back to your work later", true);
         });
         xhr.fail(function() {
             messages.error("Couldn't save your code, sorry :(");
@@ -60,9 +52,9 @@ $(document).ready(function() {
             $(".save").removeClass("loading");
         });
         return xhr;
-	}
+    },
 
-    function add_custom(name, menu) {
+    add_custom: function(name, menu) {
         if (menu === undefined) {
             menu = $(".ui.dropdown.examples .menu");
         }
@@ -71,9 +63,9 @@ $(document).ready(function() {
         div.attr("data-value", name);
         menu.append(div);
         return div;
-    }
+    },
 
-    function list_custom() {
+    list_custom: function() {
         $("#editor-container").addClass("loading").removeClass("error");
         var xhr = $.get("/load/");
         xhr.done(function(data) {
@@ -87,7 +79,7 @@ $(document).ready(function() {
             $(".ui.dropdown.examples .menu .custom").remove();
             var menu = $(".ui.dropdown.examples .menu");
             $.each(data.names, function(i, name) {
-                add_custom(name, menu);
+                editor.add_custom(name, menu);
             });
             $(".ui.dropdown.examples").dropdown('refresh');
         });
@@ -99,11 +91,27 @@ $(document).ready(function() {
             $("#editor-container").removeClass("loading");
         });
         return xhr;
-    }
+    },
 
-    function compile() {
-        machine.compile(editor.getValue());
-    }
+    compile: function() {
+        machine.compile(editor.cm.getValue());
+    },
+};
+
+$(document).ready(function() {
+    editor.cm = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        mode: "text/html",
+        lineNumbers: true
+    });
+
+    $('.ui.dropdown.examples').dropdown({
+        onChange: function() {
+            editor.load_file();
+        }
+    });
+
+    $('.action.compile').click(editor.compile);
+    $('.action.save').click(editor.save);
 
     function parse_hash() {
         var pairs = window.location.hash.substring(1).split("&"),
@@ -118,27 +126,14 @@ $(document).ready(function() {
         return obj;
     }
 
-    editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: "text/html",
-        lineNumbers: true
-    });
-
-    $('.ui.dropdown.examples').dropdown({
-        onChange: function() {
-            load_file();
-        }
-    });
-
-    $('.action.compile').click(compile);
-    $('.action.save').click(save);
-
+    var p = editor.list_custom();
     var hash = parse_hash();
-    var p = list_custom();
     if (hash.name) {
         p.done(function() {
             $('.ui.dropdown.examples').dropdown('set selected', hash.name);
             $('.ui.dropdown.examples').dropdown('refresh');
+            editor.load_file();
         });
     }
-    compile();
+    editor.compile();
 });
