@@ -1,14 +1,14 @@
-div.right.floated {
+.top.top {
+    margin-top: 20px;
+}
+
+.user {
+    width: 225px;
     float: right;
-    margin-right: 0.25em;
 }
 
-.ui.header {
-    margin-bottom: 0;
-}
-
-.ui.header.center.aligned {
-    padding-top:20px;
+.user .input {
+    margin-bottom: 5px;
 }
 
 #editor-container {

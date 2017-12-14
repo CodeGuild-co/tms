@@ -37,5 +37,6 @@ var messages = {
 
     success: function(msg, auto_hide) {
         messages.message("green", "Yay!", msg, auto_hide);
-    }
+    },
 };
+

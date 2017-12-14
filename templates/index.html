@@ -13,13 +13,35 @@
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
     <body><div class="ui container">
-        <h1 class="ui header center aligned">Turing Machine Simulator</h1>
-
+        <div class="ui grid two column top">
+            <div class="ui column">
+                <h1 class="ui header">Turing Machine Simulator</h1>    
+            </div>
+            <div class="ui column">
+                <div class="ui segment user" align="right">
+                    <div class="login">
+                        <div class="ui fluid input mini">
+                            <input id="username" type="text" name="Username" placeholder="Username">
+                        </div>
+                        <div class="ui fluid input mini">
+                            <input id="password" type="password" name="Password" placeholder="Password">
+                        </div>
+                        <button id="login" class="ui icon button action login green mini">
+                            <i class="sign in icon"></i>
+                            Log In
+                        </button>
+                    </div>
+                    <div class="logout">
+                        <p id="signin message">You are signed in.</p>
+                        <a href="{{ url_for('logout') }}" class="ui icon button mini action logout green"><i class="sign out icon"></i>Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="ui segments">
             <div class="ui segment">
                 <h2 class="ui header">Code</h2>
             </div>
-
             <div class="ui segment" id="editor-container">
                 <textarea id="code-editor">
 name: Print All the Ones
@@ -46,7 +68,7 @@ q0, _, q0, 1, >
                             <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
                         {% endfor %}
                         <div class="header">Custom</div>
-                        <div class="item disabled custom">None yet :(</div>
+                        <div class="item disabled custom" visible = "false" >None yet :(</div>
                     </div>
                 </div>
                 <button class="ui blue labelled icon button action save">
@@ -65,7 +87,7 @@ q0, _, q0, 1, >
                 <h2 class="ui header left floated">Machine</h2>
                 <div class="clearing right floated">
                     <h3 class="ui header right aligned" id="machine-name"></h3>
-                    <p id="machine-description"></p>
+                    <p id="machine-description" class="ui right aligned"></p>
                 </div>
             </div>
             <div class="ui segment clearing">
@@ -134,6 +156,7 @@ q0, _, q0, 1, >
         <script src="/static/js/messages.js"></script>
         <script src="/static/js/editor.js"></script>
         <script src="/static/js/machine.js"></script>
+        <script src="/static/js/user.js"></script>
     </div>
     <div class="ui errors"></div>
     </body>

@@ -2,9 +2,10 @@ import uuid
 import os
 import redis
 
-from flask import Flask, render_template, abort, request, jsonify
+from flask import Flask, render_template, abort, request, jsonify, session, redirect, url_for
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 r = redis.StrictRedis.from_url(os.environ['REDIS_URL'], decode_responses=True)
 
 
@@ -21,28 +22,52 @@ def get_example(name):
         abort(404)
 
 
-@app.route("/load/<id>/")
-def list_custom(id):
-    return jsonify(names=r.hkeys(id))
+@app.route("/load/")
+def list_custom():
+    userid = session.get('userid')
+    if userid is None:
+        return jsonify(names=None)    
+    else:
+        return jsonify(names=r.hkeys('machines-' + userid))
 
 
-@app.route("/load/<id>/<name>/")
-def load_custom(id, name):
-    return jsonify(code=r.hget(id, name))
+@app.route("/load/<name>/")
+def load_custom(name):
+    userid = session.get('userid')
+    return jsonify(code=r.hget('machines-' + userid, name))
 
+
+@app.route("/login/", methods=['POST'])
+def login():
+    input = request.get_json()
+    key = 'user-{}'.format(input['userid']) 
+    password = r.get(key)
+    if password is None: 
+        r.set(key, input['password']) 
+    elif password != input['password']:
+        abort(401)
+    session['userid'] = input['userid']
+    return 'ok'
+
+@app.route('/logout/')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+    
 
 @app.route('/save/', methods=['POST'])
-@app.route('/save/<id>/', methods=['POST'])
-def save(id=None):
-    if id is None:
-        id = uuid.uuid4()
+def save():
+    userid = session.get('userid')
+    if userid is None:
+        abort(403)
     code = request.get_json()['code']
     for l in code.splitlines():
         if l.startswith('name:'):
             name = l[5:].strip()
-            break
-    r.hset(id, name, code)
-    return jsonify(id=id, name=name)
+            break    
+    key = 'machines-{}'.format(userid)
+    r.hset(key, name, code)
+    return jsonify(name=name)
 
 
 def load_examples():
