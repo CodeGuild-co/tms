@@ -17,9 +17,7 @@ $(document).ready(function() {
             messages.success("You have been logged in.", true);
             $(".user .login").hide();
             $(".user .logout").show();
-            location.reload();
-            window.location.assign(location)
-            // Load machines
+            list_custom();
         });
         xhr.fail(function() {
             $('.action.login').addClass("error").removeClass("loading");;
