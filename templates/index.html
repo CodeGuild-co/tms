@@ -119,6 +119,18 @@ q0, _, q0, 1, >
                     <option value="-1">Don't Render</option>
                 </select>
 
+                <select class="ui dropdown movement">
+                    <option value="static">Don't move</option>
+                    <option value="head" selected>Move with head</option>
+                    <option value="necessary">Move if necessary</option>
+                    <option value="left">Stick to left</option>
+                    <option value="right">Stick to right</option>
+                </select>
+
+                <button class="ui blue labelled icon button" id="tidy">
+                    Tidy up
+                </button>
+
                 <div class="ui icon buttons floated right controls">
                     <button class="ui icon button" id="step">
                         <i class="step forward icon"></i>

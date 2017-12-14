@@ -76,10 +76,10 @@
     width: 60px;
     display: inline-block;
 }
-.cell:first-child {
+.move-head .cell:first-child {
     margin-left: 50%;
 }
-.cell:last-child {
+.move-head .cell:last-child {
     margin-right: 50%;
 }
 

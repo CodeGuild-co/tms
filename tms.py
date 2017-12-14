@@ -69,6 +69,7 @@ def save():
     r.hset(key, name, code)
     return jsonify(name=name)
 
+
 def load_examples():
     path = os.path.join("templates", "examples")
     for f in os.listdir(path):

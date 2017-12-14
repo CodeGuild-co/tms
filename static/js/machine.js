@@ -57,8 +57,54 @@ var tape = {
         }
         $("#tape").children().remove();
         $("#tape").append(cells);
-        var returned = (this.head_at * 66) + 33;
-        $("#tape").scrollLeft(returned);
+        
+        var movement = $('.movement select').val();
+        $("#tape").removeClass("move-head");
+        switch (movement) {
+            case "static":
+                break;
+            case "head":
+                $("#tape").addClass("move-head");
+                var returned = (this.head_at * 66) + 33;
+                $("#tape").scrollLeft(returned);
+                break;
+            case "necessary":
+                var returned = (this.head_at * 66) + 33;
+                $("#tape").scrollLeft(returned);
+                break;
+            case "left":
+                $("#tape").scrollLeft(0);
+                break;
+            case "right":
+                $("#tape").scrollLeft($("#tape")[0].scrollWidth);
+                break;
+        }
+
+        
+    },
+    tidy: function() {
+        var valueToRemove = 0
+        for (var i = 0; i<this.contents.length; i++) {
+            var cell = this.contents[i]
+            if (cell === "_" || cell === " " || cell === "") {
+            }else {
+                valueToRemove = i
+                break
+            }
+        }
+        this.contents = this.contents.slice(valueToRemove) ;
+
+        for (var x = this.contents.length -1; x>=0; x--) {
+            var endCell = this.contents[x]
+            if (endCell === "_" || endCell === " " || endCell === "") {
+            }else{
+                valueToRemove = x
+                break
+            }
+        }
+        this.contents = this.contents.slice(0,valueToRemove+1);
+        this.render();
+        
     },
 
     /**
@@ -69,7 +115,7 @@ var tape = {
             this.contents.push("_");
             return;
         }
-        while (index < 0) {
+        while (index < 0 ) {
             this.contents.splice(0, 0, '_');
             index++;
             this.head_at++;
@@ -197,6 +243,7 @@ var machine = {
 
 $(document).ready(function() {
     $('.ui.dropdown.speed').dropdown();
+    $('.ui.dropdown.movement').dropdown();
 
     $('.action.load-tape').click(function() {
         tape.load($("#tape-input").val(), true);
@@ -230,6 +277,10 @@ $(document).ready(function() {
             tape.render();
         }
         $(".tape-container").removeClass("loading");
+    });
+
+    $('#tidy').click(function() {
+        tape.tidy();
     });
 
     $('#step').click(function() {
