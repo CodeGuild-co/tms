@@ -1,3 +1,0 @@
-VG_PLUGIN_PATH=/vagrant/scripts
-VG_ENV_DIR=/vagrant/.env
-VG_DEFAULT_ENV=/vagrant/.env/default

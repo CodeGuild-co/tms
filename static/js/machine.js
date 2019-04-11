@@ -57,7 +57,7 @@ var tape = {
         }
         $("#tape").children().remove();
         $("#tape").append(cells);
-        
+
         var movement = $('.movement select').val();
         $("#tape").removeClass("move-head");
         switch (movement) {
@@ -80,31 +80,7 @@ var tape = {
                 break;
         }
 
-        
-    },
-    tidy: function() {
-        var valueToRemove = 0
-        for (var i = 0; i<this.contents.length; i++) {
-            var cell = this.contents[i]
-            if (cell === "_" || cell === " " || cell === "") {
-            }else {
-                valueToRemove = i
-                break
-            }
-        }
-        this.contents = this.contents.slice(valueToRemove) ;
 
-        for (var x = this.contents.length -1; x>=0; x--) {
-            var endCell = this.contents[x]
-            if (endCell === "_" || endCell === " " || endCell === "") {
-            }else{
-                valueToRemove = x
-                break
-            }
-        }
-        this.contents = this.contents.slice(0,valueToRemove+1);
-        this.render();
-        
     },
 
     /**
@@ -277,10 +253,6 @@ $(document).ready(function() {
             tape.render();
         }
         $(".tape-container").removeClass("loading");
-    });
-
-    $('#tidy').click(function() {
-        tape.tidy();
     });
 
     $('#step').click(function() {

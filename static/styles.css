@@ -91,3 +91,6 @@ body {
 .errors .message {
     margin-top: 10px;
 }
+.save-form {
+    display: inline-block;
+}
