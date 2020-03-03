@@ -7,12 +7,13 @@ var editor = {
             if (item.is(".custom")) {
                 url = "/load/" + name + "/";
             } else {
-                url = "/examples/" + name + "/";
+                url = "/example/" + name + "/";
             }
             $("#editor-container").addClass("loading").removeClass("error");
             var xhr = $.get(url);
             xhr.done(function(example) {
-                editor.cm.setValue(example.code);
+                //console.log(example)
+                editor.cm.setValue(example);
                 messages.success("File loaded!", true);
             });
             xhr.fail(function() {
@@ -24,6 +25,7 @@ var editor = {
                 window.location.hash = "name=" + encodeURIComponent(name);
             });
             return xhr;
+            
         }
     },
 

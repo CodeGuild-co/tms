@@ -11,12 +11,7 @@ app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 
 
 def render_page(name, root="templates/example"):
-    try:
-        with open("{}/{}.txt".format(root, name), "r") as fd:
-            code = fd.read()
-    except FileNotFoundError:
-        abort(404)
-    return render_template("index.html", examples=load_examples(), code=code)
+    return render_template("index.html", examples=load_examples())
 
 
 @app.route("/", methods=("GET", "POST"))
@@ -30,7 +25,11 @@ def index():
 def example(name):
     if request.method == "POST":
         return custom()
-    return render_page(name)
+        
+    with open("templates/example/{}.txt".format(name), "r") as fd:
+        code = fd.read()
+
+    return code
 
 
 @app.route("/custom/<uuid:id>/", methods=("GET", "POST"))
