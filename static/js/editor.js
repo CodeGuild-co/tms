@@ -3,7 +3,7 @@ var editor = {
         var name = $('.ui.dropdown.examples').dropdown('get value');
         if (name) {
             var item = $('.ui.dropdown.examples').dropdown('get item', name);
-            window.location.href = "/examples/" + name + "/";
+            window.location.href = "/example/" + name + "/";
         }
     },
 
