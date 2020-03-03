@@ -102,6 +102,72 @@ var tape = {
     }
 };
 
+function parse_transitions(code) {
+
+  var lines = code.split(/\r\n|\r|\n|\n\r/);
+
+  var templates = [];
+  var transitions = [];
+
+  for (var i = 0; i < lines.length; i++) {
+
+    var line = lines[i].trim();
+
+    // Search for a comment and remove if necessary.
+    var comment_pos = line.search("//");
+    if (comment_pos != -1) {
+      line = line.substring(0, comment_pos);
+    }
+
+    // Ignore the line if it is empty.
+    if (line.length === 0) {
+      continue;
+    }
+
+/*
+    var mode = "init";
+    for (var pos = 0; pos < line.length;) {
+
+      switch (mode) {
+        case "init": {
+
+          if (line[pos] == "<") {
+            mode = "template_params";
+          } else {
+            mode = "init_state";
+          }
+          
+          break;
+        }
+
+        case ""
+      }      
+      
+    }*/
+
+    // Split into components.
+    var components = line.split(" ");
+
+    // Remove any empty string components (created if multiple spaces appear between two components).
+    var index;
+    while ((index = components.indexOf("")) != -1) {
+      components.splice(index, 1);
+    }
+
+    transitions.push({
+      init_state: components[0],
+      read_symbol: components[1],
+      write_symbol: components[2],
+      next_state: components[3],
+      move: components[4]
+    });
+    
+  }
+
+  return transitions;
+
+}
+
 var machine = {
     pause: true,
     states: {},
@@ -137,41 +203,25 @@ var machine = {
         this.step = 0;
     },
 
-    compile: function(code) {
+    compile: function(code, start_state) {
         this.hard_reset();
-        var lines = code.split(/\r\n|\r|\n|\n\r/);
-        for (var i = 0; i < lines.length; i++) {
-            var raw_line = lines[i];
-            var line = raw_line.replace(/\s+/g, '');
-            if (line.indexOf('//') === 0 || line.length === 0) {
-                continue;
-            }
-            if (line.indexOf('start:') === 0) {
-                this.start_state = line.split(":").pop();
-            } else if (line.indexOf('halt:') === 0){
-                this.halting_states = line.split(":").pop().split(",");
-            } else if (line.indexOf('name:') === 0) {
-                this.name = raw_line.split(':').slice(1).join(":").trim();
-            } else if (line.indexOf('description:') === 0) {
-                this.description = raw_line.split(':').slice(1).join(":").trim();
-            } else {
-                var transition = line.split(","),
-                    from = transition[0],
-                    read = transition[1],
-                    to = transition[2],
-                    write = transition[3],
-                    move = transition[4];
-                if (!this.states[from]) {
-                    this.states[from] = {};
-                }
-                if (!this.states[to]) {
-                    this.states[to] = {};
-                }
-                this.states[from][read] = {write: write, state: to, move: move};
-            }
-            this.current_state_name = this.start_state;
-            this.current_state = this.states[this.start_state];
+        var transitions = parse_transitions(code);
+
+        for (var i = 0; i < transitions.length; i++) {
+          var transition = transitions[i];
+
+          if (!this.states[transition.init_state]) {
+            this.states[transition.init_state] = {};
+          }
+          
+          this.states[transition.init_state][transition.read_symbol] = {write: transition.write_symbol, state: transition.next_state, move: transition.move};
         }
+
+        this.start_state = start_state;
+        this.halting_states = [ "halt" ];
+        
+        this.current_state_name = this.start_state;
+        this.current_state = this.states[this.start_state];
         this.render();
     },
 

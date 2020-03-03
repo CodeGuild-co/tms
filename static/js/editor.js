@@ -99,7 +99,7 @@ var editor = {
     },
 
     compile: function() {
-        machine.compile(editor.cm.getValue());
+        machine.compile(editor.cm.getValue(), document.getElementById("start_state").value);
     },
 };
 

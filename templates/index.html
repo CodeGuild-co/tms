@@ -42,15 +42,7 @@
                 <h2 class="ui header">Code</h2>
             </div>
             <div class="ui segment" id="editor-container">
-                <textarea id="code-editor">
-name: Print All the Ones
-description: Print ones on the tape
-start: q0
-halt: qH
-
-// [current_state],[read_symbol], [new_state], [write_symbol], [>|<|-]
-q0, _, q0, 1, >
-                </textarea>
+                <textarea id="code-editor"></textarea>
             </div>
             <div class="ui segment">
                 <div class="ui search selection dropdown examples">
@@ -74,6 +66,9 @@ q0, _, q0, 1, >
                     <i class="save icon"></i>
                     Save
                 </button>
+                <div class="ui input">
+                    <input id="start_state" type="text" name="Start State" placeholder="Start state...">
+                </div>
                 <button class="ui green labelled icon button right floated action compile">
                     <i class="wizard icon"></i>
                     Compile
