@@ -12,8 +12,7 @@ var editor = {
             $("#editor-container").addClass("loading").removeClass("error");
             var xhr = $.get(url);
             xhr.done(function(example) {
-                //console.log(example)
-                editor.cm.setValue(example);
+                editor.monaco.setValue(example);
                 messages.success("File loaded!", true);
             });
             xhr.fail(function() {
@@ -30,7 +29,7 @@ var editor = {
     },
 
     save: function() {
-        var code = editor.cm.getValue(),
+        var code = editor.monaco.getValue(),
             url = "/save/";
         $(".save").addClass("loading").removeClass("error");
         var xhr = $.ajax(url, {
@@ -99,15 +98,18 @@ var editor = {
     },
 
     compile: function() {
-        machine.compile(editor.cm.getValue(), document.getElementById("start_state").value);
+        machine.compile(editor.monaco.getValue(), document.getElementById("start_state").value);
     },
 };
 
 $(document).ready(function() {
-    editor.cm = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: "text/html",
-        lineNumbers: true
-    });
+    require.config({ paths: { 'vs': '/static/js/monaco/vs' }});
+  
+  	require(['vs/editor/editor.main'], function() {
+      editor.monaco = monaco.editor.create(document.getElementById("code-editor"), {
+        value: "hello world"
+      });
+  	});
 
     $('.ui.dropdown.examples').dropdown({
         onChange: function() {
@@ -131,7 +133,8 @@ $(document).ready(function() {
         return obj;
     }
 
-    //var p = editor.list_custom();
+    /*
+    var p = editor.list_custom();
     var hash = parse_hash();
     if (hash.name) {
         p.done(function() {
@@ -140,5 +143,6 @@ $(document).ready(function() {
             editor.load_file();
         });
     }
+    */
     editor.compile();
 });
