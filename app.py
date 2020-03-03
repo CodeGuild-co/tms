@@ -1,7 +1,6 @@
-import uuid
 import os
 
-from flask import Flask, render_template, abort, request, redirect, url_for
+from flask import Flask, render_template, abort
 from dotenv import load_dotenv
 
 load_dotenv()
