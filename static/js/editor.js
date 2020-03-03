@@ -131,7 +131,7 @@ $(document).ready(function() {
         return obj;
     }
 
-    var p = editor.list_custom();
+    //var p = editor.list_custom();
     var hash = parse_hash();
     if (hash.name) {
         p.done(function() {
