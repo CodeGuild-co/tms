@@ -19,30 +19,14 @@ def render_page(name, root="templates/example"):
     return render_template("index.html", examples=load_examples(), code=code)
 
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/")
 def index():
-    if request.method == "POST":
-        return custom()
     return render_page("print-all-the-ones")
 
 
-@app.route("/example/<name>/", methods=("GET", "POST"))
+@app.route("/example/<name>/")
 def example(name):
-    if request.method == "POST":
-        return custom()
     return render_page(name)
-
-
-@app.route("/custom/<uuid:id>/", methods=("GET", "POST"))
-@app.route("/custom/", methods=("GET", "POST"))
-def custom(id=None):
-    if request.method == "POST":
-        if id is None:
-            id = uuid.uuid4()
-        with open("custom/{}.txt".format(id), "w") as fd:
-            fd.write(request.form["code"])
-        return redirect(url_for("custom", id=id))
-    return render_page(id, root="custom")
 
 
 def load_examples():

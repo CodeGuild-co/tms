@@ -17,64 +17,29 @@
             <div class="ui column">
                 <h1 class="ui header">Turing Machine Simulator</h1>
             </div>
-            <div class="ui column">
-                <div class="ui segment user" align="right">
-                    <div class="login">
-                        <div class="ui fluid input mini">
-                            <input id="username" type="text" name="Username" placeholder="Username">
-                        </div>
-                        <div class="ui fluid input mini">
-                            <input id="password" type="password" name="Password" placeholder="Password">
-                        </div>
-                        <button id="login" class="ui icon button action login green mini">
-                            <i class="sign in icon"></i>
-                            Log In
-                        </button>
-                    </div>
-                    <div class="logout">
-                        <p id="signin message">You are signed in.</p>
-                        <a href="{{ url_for('logout') }}" class="ui icon button mini action logout green"><i class="sign out icon"></i>Log Out</a>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="ui segments">
             <div class="ui segment">
                 <h2 class="ui header">Code</h2>
             </div>
             <div class="ui segment" id="editor-container">
-                <textarea id="code-editor">
-name: Print All the Ones
-description: Print ones on the tape
-start: q0
-halt: qH
-
-// [current_state],[read_symbol], [new_state], [write_symbol], [>|<|-]
-q0, _, q0, 1, >
-                </textarea>
+                <textarea id="code-editor">{{ code }}</textarea>
             </div>
             <div class="ui segment">
                 <div class="ui search selection dropdown examples">
                     <input name="file" type="hidden">
                     <i class="dropdown icon"></i>
-                    <div class="default text">Load file...</div>
+                    <div class="default text">Examples...</div>
                     <div class="menu">
                         <div class="ui icon search input">
                             <i class="search icon"></i>
-                            <input placeholder="Search files..." type="text">
+                            <input placeholder="Search..." type="text">
                         </div>
-                        <div class="header">Standard</div>
                         {% for e in examples %}
                             <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
                         {% endfor %}
-                        <div class="header">Custom</div>
-                        <div class="item disabled custom" >None yet :(</div>
                     </div>
                 </div>
-                <button class="ui blue labelled icon button action save">
-                    <i class="save icon"></i>
-                    Save
-                </button>
                 <button class="ui green labelled icon button right floated action compile">
                     <i class="wizard icon"></i>
                     Compile
@@ -156,7 +121,6 @@ q0, _, q0, 1, >
         <script src="/static/js/messages.js"></script>
         <script src="/static/js/editor.js"></script>
         <script src="/static/js/machine.js"></script>
-        <script src="/static/js/user.js"></script>
     </div>
     <div class="ui errors"></div>
     </body>
