@@ -9,16 +9,14 @@ load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 
-
-def render_page(name, root="templates/example"):
+def render_page(root="templates/example"):
     return render_template("index.html", examples=load_examples())
-
 
 @app.route("/", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
         return custom()
-    return render_page("print-all-the-ones")
+    return render_page()
 
 
 @app.route("/example/<name>/", methods=("GET", "POST"))
@@ -47,13 +45,8 @@ def custom(id=None):
 def load_examples():
     path = os.path.join("templates", "example")
     for f in os.listdir(path):
-        with open(os.path.join(path, f), "r") as fd:
-            for l in fd.readlines():
-                if l.startswith("name:"):
-                    filename, _ = os.path.splitext(f)
-                    yield {"name": l[5:].strip(), "filename": filename}
-                    break
-
+      filename, _ = os.path.splitext(f)
+      yield {"name": filename.strip(), "filename": filename}
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

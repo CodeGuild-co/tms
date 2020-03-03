@@ -1,7 +1,5 @@
-name: Print All the Ones
-description: Print ones on the tape
-start: q0
-halt: qH
+// Print All the Ones
+// Print ones on the tape
 
-// [current_state],[read_symbol], [new_state], [write_symbol], [>|<|-]
-q0, _, q0, 1, >
+// [initial_state] [read_symbol] [write_symbol] [>|<|-] [next_state]
+q0 _ 1 > q0

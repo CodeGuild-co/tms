@@ -158,8 +158,8 @@ function parse_transitions(code) {
       init_state: components[0],
       read_symbol: components[1],
       write_symbol: components[2],
-      next_state: components[3],
-      move: components[4]
+      move: components[3],
+      next_state: components[4]
     });
     
   }
