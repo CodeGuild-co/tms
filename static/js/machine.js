@@ -260,9 +260,7 @@ var machine = {
     },
 
     render: function() {
-        $("#machine-name").text(this.name || "Unnamed");
-        $("#machine-description").text(this.description || "");
-        $("#machine-state").text(this.current_state_name || "No state");
+        $("#machine-state").text(this.current_state_name || "<none>");
         $("#machine-step").text(this.step);
     }
 };

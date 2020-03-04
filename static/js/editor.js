@@ -98,7 +98,7 @@ var editor = {
     },
 
     compile: function() {
-        machine.compile(editor.monaco.getValue(), document.getElementById("start_state").value);
+        machine.compile(editor.monaco.getValue(), document.getElementById("start-state").value);
     },
 };
 
@@ -107,7 +107,9 @@ $(document).ready(function() {
   
   	require(['vs/editor/editor.main'], function() {
       editor.monaco = monaco.editor.create(document.getElementById("code-editor"), {
-        value: "hello world"
+        minimap: {
+          enabled: false
+        }
       });
   	});
 

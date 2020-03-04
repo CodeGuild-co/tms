@@ -12,89 +12,93 @@
 
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
-    <body><div class="ui container">
-        <div class="ui grid two column top">
-            <div class="ui column">
-                <h1 class="ui header">Turing Machine Simulator</h1>
-            </div>
-            <div class="ui column">
-                <div class="ui segment user" align="right">
-                    <div class="login">
-                        <div class="ui fluid input mini">
-                            <input id="username" type="text" name="Username" placeholder="Username">
-                        </div>
-                        <div class="ui fluid input mini">
-                            <input id="password" type="password" name="Password" placeholder="Password">
-                        </div>
-                        <button id="login" class="ui icon button action login green mini">
-                            <i class="sign in icon"></i>
-                            Log In
-                        </button>
-                    </div>
-                    <div class="logout">
-                        <p id="signin message">You are signed in.</p>
-                    </div>
+    <body>
+
+    <div class="top-menu">
+      <h3>Turing Machine Simulator</h3>
+    </div>
+
+    <div class="top-row">
+        <div class="top-left">
+            <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
+
+                <div class="ui segment" style="flex: 0 1 auto;">
+                    <h3>Program</h3>
                 </div>
+
+                <div class="ui segment" id="editor-container" style="flex: 1 1 auto;">
+                    <div id="code-editor"></div>
+                </div>
+
             </div>
+
         </div>
-        <div class="ui segments">
-            <div class="ui segment">
-                <h2 class="ui header">Code</h2>
-            </div>
-            <div class="ui segment" id="editor-container">
-                <div id="code-editor"></div>
-            </div>
-            <div class="ui segment">
-                <div class="ui search selection dropdown examples">
-                    <input name="file" type="hidden">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Load file...</div>
-                    <div class="menu">
-                        <div class="ui icon search input">
-                            <i class="search icon"></i>
-                            <input placeholder="Search files..." type="text">
+        <div class="top-right">
+
+            <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
+                <div class="ui segment" style="flex: 0 1 auto;">
+                    <h3>Settings</h3>
+                </div>
+
+                <form class="ui segment form" style="flex: 1 1 auto;">
+                    <div class="field">
+                        <label>Start State</label>
+                        <div class="ui input">
+                            <input id="start-state" type="text" name="Start State" placeholder="Start State...">
                         </div>
-                        <div class="header">Standard</div>
-                        {% for e in examples %}
-                            <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
-                        {% endfor %}
-                        <div class="header">Custom</div>
-                        <div class="item disabled custom" >None yet :(</div>
                     </div>
-                </div>
-                <button class="ui blue labelled icon button action save">
-                    <i class="save icon"></i>
-                    Save
-                </button>
-                <div class="ui input">
-                    <input id="start_state" type="text" name="Start State" placeholder="Start state...">
-                </div>
-                <button class="ui green labelled icon button right floated action compile">
-                    <i class="wizard icon"></i>
-                    Compile
-                </button>
-            </div>
-        </div>
-        <!--<div id="messages"></div>-->
-        <div class="ui segments">
-            <div class="ui segment clearing">
-                <h2 class="ui header left floated">Machine</h2>
-                <div class="clearing right floated">
-                    <h3 class="ui header right aligned" id="machine-name"></h3>
-                    <p id="machine-description"></p>
-                </div>
-            </div>
-            <div class="ui segment clearing">
-                <h4 class="ui header left floated">State: <span id="machine-state"></span></h4>
-                <h4 class="ui header right floated">Step: <span id="machine-step"></h4>
-            </div>
-            <div class="ui segment">
-                <div class="ui action input fluid">
-                    <input type="text" id="tape-input" placeholder="Contents of tape...">
-                    <button class="ui icon button action load-tape labelled right floated">
-                        <i class="write icon"></i>
-                        Load Tape
+                    <div class="field">
+                        <label>Start Tape</label>
+                        <div class="ui input">
+                            <input id="start-tape" type="text" name="Start Tape" placeholder="Start Tape...">
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="ui segment">
+                    <div class="ui search selection dropdown examples">
+                        <input name="file" type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Load file...</div>
+                        <div class="menu">
+                            <div class="ui icon search input">
+                                <i class="search icon"></i>
+                                <input placeholder="Search files..." type="text">
+                            </div>
+                            <div class="header">Standard</div>
+                            {% for e in examples %}
+                                <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
+                            {% endfor %}
+                            <div class="header">Custom</div>
+                            <div class="item disabled custom" >None yet :(</div>
+                        </div>
+                    </div>
+                    <button class="ui blue labelled icon button action save">
+                        <i class="save icon"></i>
+                        Save
                     </button>
+                    <button class="ui green labelled icon button right floated action compile">
+                        <i class="wizard icon"></i>
+                        Compile
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bottom-row">
+        <div class="ui segments">
+            <div class="ui segment clearing">
+                <h3 class="ui header left floated" style="margin-bottom: 0;">Machine</h3>
+                <div class="ui label right floated">
+                  Step
+                  <div class="detail" id="machine-step">0</div>
+                </div>
+                <div class="ui label right floated" style="margin-right: 10px;">
+                  State
+                  <div class="detail" id="machine-state">&lt;none&gt;</div>
                 </div>
             </div>
             <div class="ui segment tape-container">
@@ -142,16 +146,18 @@
                 </div>
             </div>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
-        <script src="/static/js/monaco/vs/loader.js"></script>
-
-        <script src="/static/js/messages.js"></script>
-        <script src="/static/js/editor.js"></script>
-        <script src="/static/js/machine.js"></script>
-        <script src="/static/js/user.js"></script>
     </div>
+
+    <!--<div id="messages"></div>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+    <script src="/static/js/monaco/vs/loader.js"></script>
+
+    <script src="/static/js/messages.js"></script>
+    <script src="/static/js/editor.js"></script>
+    <script src="/static/js/machine.js"></script>
+    <script src="/static/js/user.js"></script>
+
     <div class="ui errors"></div>
     </body>
 </html>
