@@ -14,16 +14,27 @@
     </head>
     <body>
 
-    <div class="top-menu">
-      <h3>Turing Machine Simulator</h3>
+    <div class="ui menu top-menu">
+        <h3 class="ui header item">Turing Machine Simulator</h3>
+        <div class="ui simple dropdown item">
+            Theme
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" id="theme-light">Light</a>
+                <a class="item" id="theme-dark">Dark</a>
+            </div>
+        </div>
     </div>
 
     <div class="top-row">
         <div class="top-left">
             <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
-
                 <div class="ui segment" style="flex: 0 1 auto;">
-                    <h3>Program</h3>
+                    <h3 class="ui header left floated" style="margin-bottom: 0;">Program</h3>
+                    <div class="ui buttons right floated">
+                      <button class="ui button">Code</button>
+                      <button class="ui button">Graph</button>
+                    </div>
                 </div>
 
                 <div class="ui segment" id="editor-container" style="flex: 1 1 auto;">
