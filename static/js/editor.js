@@ -9,6 +9,7 @@ var editor = {
 
     compile: function() {
         machine.compile(editor.cm.getValue());
+        graph.render();
     },
 };
 
