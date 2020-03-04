@@ -62,7 +62,7 @@ div.right.floated {
     margin-bottom: 5px;
 }
 
-#editor-container {
+#editor-container, #graph-container {
     padding: 0;
     width: 100%;
     height: 100%;
@@ -146,4 +146,8 @@ body {
 }
 .save-form {
     display: inline-block;
+}
+
+.hidden {
+    display: none;
 }

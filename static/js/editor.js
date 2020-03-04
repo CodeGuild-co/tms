@@ -97,6 +97,18 @@ var editor = {
         return xhr;
     },
 
+    view_code: function() {
+        $("#editor-container").removeClass("hidden");
+        $("#graph-container").addClass("hidden");
+        $("#editor-header").text("Code");
+    },
+
+    view_graph: function() {
+        $("#editor-container").addClass("hidden");
+        $("#graph-container").removeClass("hidden");
+        $("#editor-header").text("Graph");
+    },
+
     compile: function() {
         machine.compile(editor.monaco.getValue(), document.getElementById("start-state").value);
     },
@@ -121,6 +133,9 @@ $(document).ready(function() {
 
     $('.action.compile').click(editor.compile);
     $('.action.save').click(editor.save);
+
+    $("#view-code-button").click(editor.view_code);
+    $("#view-graph-button").click(editor.view_graph);
 
     function parse_hash() {
         var pairs = window.location.hash.substring(1).split("&"),
