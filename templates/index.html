@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <title>Online Turing Machine Simulator</title>
+        <script src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>
+
         <meta http-equiv="Content-Type" content="text/ html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <meta name="Description" content="Interactive Turing machine simulator. Use a simple language to create, compile and run your Turing machines save and share your own Turing machines.">
@@ -121,15 +123,7 @@
                     <h2 class="ui header">Graph</h2>
                 </div>
                 <div class="ui segment">
-                    <div class="ui grid two column">
-                        <div class="ui column">
-                            <ul id="node-list"></ul>
-                            <ul id="edge-list"></ul>
-                        </div>
-                        <div class="ui column">
-                            <h2>Node!!</h2>
-                        </div>
-                    </div>
+                    <div id = "mynetwork" style = "width:100%;height:1000px"></div>
                 </div>
             </div>
 
