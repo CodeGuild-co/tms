@@ -3,13 +3,7 @@ var editor = {
         var name = $('.ui.dropdown.examples').dropdown('get value');
         if (name) {
             var item = $('.ui.dropdown.examples').dropdown('get item', name);
-            window.location.href = "/example/" + name + "/";
-            var url;
-            if (item.is(".custom")) {
-                url = "/load/" + name + "/";
-            } else {
-                url = "/example/" + name + "/";
-            }
+            var url = "/example/" + name + "/";
             $("#editor-container").addClass("loading").removeClass("error");
             var xhr = $.getJSON(url);
             xhr.done(function(example) {
@@ -24,15 +18,8 @@ var editor = {
             });
             xhr.always(function() {
                 $("#editor-container").removeClass("loading");
-                window.location.hash = "name=" + encodeURIComponent(name);
             });
-            return xhr;
-            
-        }
-    },
-
-    save: function() {
-        var code = editor.monaco.getValue(),
+            return xhr;            
         }
     },
 
@@ -75,8 +62,5 @@ $(document).ready(function() {
     $("#view-code-button").click(editor.view_code);
     $("#view-graph-button").click(editor.view_graph);
 
-
-    /*
-    */
     editor.compile();
 });
