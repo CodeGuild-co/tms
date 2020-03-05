@@ -1,5 +1,0 @@
-// Print All the Ones
-// Print ones on the tape
-
-// [initial_state] [read_symbol] [write_symbol] [>|<|-] [next_state]
-q0 _ 1 > q0

@@ -124,27 +124,6 @@ function parse_transitions(code) {
       continue;
     }
 
-/*
-    var mode = "init";
-    for (var pos = 0; pos < line.length;) {
-
-      switch (mode) {
-        case "init": {
-
-          if (line[pos] == "<") {
-            mode = "template_params";
-          } else {
-            mode = "init_state";
-          }
-          
-          break;
-        }
-
-        case ""
-      }      
-      
-    }*/
-
     // Split into components.
     var components = line.split(" ");
 
@@ -203,7 +182,7 @@ var machine = {
         this.step = 0;
     },
 
-    compile: function(code, start_state) {
+    compile: function(code, start_state, start_tape) {
         this.hard_reset();
         var transitions = parse_transitions(code);
 
@@ -223,6 +202,8 @@ var machine = {
         this.current_state_name = this.start_state;
         this.current_state = this.states[this.start_state];
         this.render();
+
+        tape.load(start_tape);
     },
 
     transition: function(input, render) {
@@ -245,10 +226,10 @@ var machine = {
             this.current_state = this.states[instructions.state];
             tape.write(instructions.write, render);
             switch (instructions.move) {
-                case ">":
+                case "r":
                     tape.right(render);
                     break;
-                case "<":
+                case "l":
                     tape.left(render);
                     break;
             }
@@ -268,12 +249,6 @@ var machine = {
 $(document).ready(function() {
     $('.ui.dropdown.speed').dropdown();
     $('.ui.dropdown.movement').dropdown();
-
-    $('.action.load-tape').click(function() {
-        tape.load($("#tape-input").val(), true);
-        machine.soft_reset();
-        machine.render();
-    });
 
     $('#play').click(function() {
         var render = parseInt($('.speed select').val()) !== -1;

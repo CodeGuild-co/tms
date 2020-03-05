@@ -1,5 +1,6 @@
 import uuid
 import os
+import json
 
 from flask import Flask, render_template, abort, request, redirect, url_for
 from dotenv import load_dotenv
@@ -24,7 +25,7 @@ def example(name):
     if request.method == "POST":
         return custom()
         
-    with open("templates/example/{}.txt".format(name), "r") as fd:
+    with open("templates/example/{}.json".format(name), "r") as fd:
         code = fd.read()
 
     return code
@@ -45,8 +46,16 @@ def custom(id=None):
 def load_examples():
     path = os.path.join("templates", "example")
     for f in os.listdir(path):
-      filename, _ = os.path.splitext(f)
-      yield {"name": filename.strip(), "filename": filename}
+        filename, _ = os.path.splitext(f)
+        with open(os.path.join(path, f), "r") as fd:
+            example_data = json.load(fd)
+
+            if not "name" in example_data:
+                name = filename.split()
+            else:
+                name = str(example_data["name"])
+
+            yield {"name": name, "filename": filename}
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

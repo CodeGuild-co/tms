@@ -10,9 +10,11 @@ var editor = {
                 url = "/example/" + name + "/";
             }
             $("#editor-container").addClass("loading").removeClass("error");
-            var xhr = $.get(url);
+            var xhr = $.getJSON(url);
             xhr.done(function(example) {
-                editor.monaco.setValue(example);
+                editor.monaco.setValue(example.code);
+                $("#start-state").val(example.start_state);
+                $("#start-tape").val(example.start_tape);
                 messages.success("File loaded!", true);
             });
             xhr.fail(function() {
@@ -110,7 +112,7 @@ var editor = {
     },
 
     compile: function() {
-        machine.compile(editor.monaco.getValue(), document.getElementById("start-state").value);
+        machine.compile(editor.monaco.getValue(), document.getElementById("start-state").value, document.getElementById("start-tape").value);
     },
 };
 
