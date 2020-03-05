@@ -9,6 +9,7 @@
         <meta name="Keywords" content="Turing, machine, simulator, online">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.0/codemirror.min.css" integrity="sha256-vZ3SaLOjnKO/gGvcUWegySoDU6ff33CS5i9ot8J9Czk=" crossorigin="anonymous" />
 
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
@@ -21,7 +22,7 @@
     <div class="top-row">
         <div class="top-left">
             <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
-                <div class="ui segment" style="flex: 0 1 auto;">
+                <div class="ui segment" style="flex: 0 1 auto;" id="editor-container-header">
                     <h3 class="ui header left floated" style="margin-bottom: 0;" id="editor-header">Code</h3>
                     <div class="ui buttons right floated">
                       <button class="ui button" id="view-code-button">Code</button>
@@ -30,7 +31,7 @@
                 </div>
 
                 <div class="ui segment" id="editor-container" style="flex: 1 1 auto;">
-                    <div id="code-editor"></div>
+                    <textarea id="code-editor"></textarea>
                 </div>
 
                 <div class="ui segment hidden" id="graph-container" style="flex: 1 1 auto;">
@@ -148,8 +149,8 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
-        =<script src="/static/js/vis-network.min.js"></script>
-        <script src="/static/js/monaco/vs/loader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.0/codemirror.js"></script>
+        <script src="/static/js/vis-network.min.js"></script>
 
         <script src="/static/js/messages.js"></script>
         <script src="/static/js/editor.js"></script>
