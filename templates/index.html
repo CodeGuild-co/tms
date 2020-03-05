@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <title>Online Turing Machine Simulator</title>
-        <script src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>
 
         <meta http-equiv="Content-Type" content="text/ html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
@@ -10,25 +9,56 @@
         <meta name="Keywords" content="Turing, machine, simulator, online">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.0/codemirror.min.css" integrity="sha256-vZ3SaLOjnKO/gGvcUWegySoDU6ff33CS5i9ot8J9Czk=" crossorigin="anonymous" />
 
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <div class="ui container">
-            <div class="ui grid two column top">
-                <div class="ui column">
-                    <h1 class="ui header">Turing Machine Simulator</h1>
+
+    <div class="ui menu top-menu">
+        <h3 class="ui header item">Turing Machine Simulator</h3>
+    </div>
+
+    <div class="top-row">
+        <div class="top-left">
+            <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
+                <div class="ui segment" style="flex: 0 1 auto;">
+                    <h3 class="ui header left floated" style="margin-bottom: 0;" id="editor-header">Code</h3>
+                    <div class="ui buttons right floated">
+                      <button class="ui button" id="view-code-button">Code</button>
+                      <button class="ui button" id="view-graph-button">Graph</button>
+                    </div>
+                </div>
+
+                <div class="ui segment" id="editor-container" style="flex: 1 1 auto;">
+                    <div id="code-editor"></div>
+                </div>
+
+                <div class="ui segment hidden" id="graph-container" style="flex: 1 1 auto;">
+                    <div id="mynetwork" style="width:100%; height:100%"></div>
                 </div>
             </div>
+        </div>
+        <div class="top-right">
 
-            <div class="ui segments">
-                <div class="ui segment">
-                    <h2 class="ui header">Code</h2>
+            <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
+                <div class="ui segment" style="flex: 0 1 auto;">
+                    <h3>Settings</h3>
                 </div>
-                <div class="ui segment" id="editor-container">
-                    <textarea id="code-editor">{{ code }}</textarea>
-                </div>
+                <form class="ui segment form" style="flex: 1 1 auto;">
+                    <div class="field">
+                        <label>Start State</label>
+                        <div class="ui input">
+                            <input id="start-state" type="text" name="Start State" placeholder="Start State...">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Start Tape</label>
+                        <div class="ui input">
+                            <input id="start-tape" type="text" name="Start Tape" placeholder="Start Tape...">
+                        </div>
+                    </div>
+                </form>
+                
                 <div class="ui segment">
                     <div class="ui search selection dropdown examples">
                         <input name="file" type="hidden">
@@ -49,27 +79,22 @@
                         Compile
                     </button>
                 </div>
-            </div>
 
-            <div class="ui segments">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-row">
+        <div class="ui segments">
                 <div class="ui segment clearing">
-                    <h2 class="ui header left floated">Machine</h2>
-                    <div class="clearing right floated">
-                        <h3 class="ui header right aligned" id="machine-name"></h3>
-                        <p id="machine-description"></p>
-                    </div>
+                <h3 class="ui header left floated" style="margin-bottom: 0;">Machine</h3>
+                <div class="ui label right floated">
+                  Step
+                  <div class="detail" id="machine-step">0</div>
                 </div>
-                <div class="ui segment clearing">
-                    <h4 class="ui header left floated">State: <span id="machine-state"></span></h4>
-                    <h4 class="ui header right floated">Step: <span id="machine-step"></h4>
-                </div>
-                <div class="ui segment">
-                    <div class="ui action input fluid">
-                        <input type="text" id="tape-input" placeholder="Contents of tape...">
-                        <button class="ui icon button action load-tape labelled right floated">
-                            <i class="write icon"></i>
-                            Load Tape
-                        </button>
+                <div class="ui label right floated" style="margin-right: 10px;">
+                  State
+                  <div class="detail" id="machine-state">&lt;none&gt;</div>
                     </div>
                 </div>
                 <div class="ui segment tape-container">
@@ -117,26 +142,18 @@
                     </div>
                 </div>
             </div>
-
-            <div class="ui segments">
-                <div class="ui segment">
-                    <h2 class="ui header">Graph</h2>
-                </div>
-                <div class="ui segment">
-                    <div id = "mynetwork" style = "width:100%;height:1000px"></div>
-                </div>
-            </div>
-
-            <div class="ui errors"></div>
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.0/codemirror.min.js" integrity="sha256-C1kVf8tUtnM4eBSZM0mE7kcDrTYuVGxACdyYvhMEeRo=" crossorigin="anonymous"></script>
-
-            <script src="/static/js/messages.js"></script>
-            <script src="/static/js/editor.js"></script>
-            <script src="/static/js/machine.js"></script>
-            <script src="/static/js/graph.js"></script>
         </div>
+
+        <div class="ui errors"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+        =<script src="/static/js/vis-network.min.js"></script>
+        <script src="/static/js/monaco/vs/loader.js"></script>
+
+        <script src="/static/js/messages.js"></script>
+        <script src="/static/js/editor.js"></script>
+        <script src="/static/js/machine.js"></script>
+        <script src="/static/js/graph.js"></script>
     </body>
 </html>

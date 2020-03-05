@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import Flask, render_template, abort
 from dotenv import load_dotenv
@@ -8,36 +9,36 @@ load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 
-
-def render_page(name, root="templates/example"):
-    try:
-        with open("{}/{}.txt".format(root, name), "r") as fd:
-            code = fd.read()
-    except FileNotFoundError:
-        abort(404)
-    return render_template("index.html", examples=load_examples(), code=code)
-
+def render_page(root="templates/example"):
+    return render_template("index.html", examples=load_examples())
 
 @app.route("/")
 def index():
-    return render_page("print-all-the-ones")
+    return render_page()
 
 
 @app.route("/example/<name>/")
 def example(name):
-    return render_page(name)
+        
+    with open("templates/example/{}.json".format(name), "r") as fd:
+        code = fd.read()
+
+    return code
 
 
 def load_examples():
     path = os.path.join("templates", "example")
     for f in os.listdir(path):
+        filename, _ = os.path.splitext(f)
         with open(os.path.join(path, f), "r") as fd:
-            for l in fd.readlines():
-                if l.startswith("name:"):
-                    filename, _ = os.path.splitext(f)
-                    yield {"name": l[5:].strip(), "filename": filename}
-                    break
+            example_data = json.load(fd)
 
+            if not "name" in example_data:
+                name = filename.split()
+            else:
+                name = str(example_data["name"])
+
+            yield {"name": name, "filename": filename}
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

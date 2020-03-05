@@ -1,0 +1,7 @@
+{
+  
+    "name": "Binary Counter",
+    "start_state": "q0",
+    "start_tape": "",
+    "code": "// [start_state] [read_symbol] [write_symbol] [l|r|n] [next_state]\nq0 _ 1 r q1\nq0 0 1 r q1\nq0 1 0 l q0\n\nq1 0 0 r q1\nq1 1 1 r q1\nq1 _ _ l q0"
+}
