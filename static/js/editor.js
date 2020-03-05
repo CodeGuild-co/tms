@@ -7,7 +7,7 @@ var editor = {
             $("#editor-container").addClass("loading").removeClass("error");
             var xhr = $.getJSON(url);
             xhr.done(function(example) {
-                editor.monaco.setValue(example.code);
+                editor.cm.setValue(example.code);
                 $("#start-state").val(example.start_state);
                 $("#start-tape").val(example.start_tape);
                 messages.success("File loaded!", true);
@@ -36,21 +36,19 @@ var editor = {
     },
 
     compile: function() {
-        machine.compile(editor.monaco.getValue(), document.getElementById("start-state").value, document.getElementById("start-tape").value);
+        machine.compile(editor.cm.getValue(), document.getElementById("start-state").value, document.getElementById("start-tape").value);
         graph.render();
     },
 };
 
 $(document).ready(function() {
-    require.config({ paths: { 'vs': '/static/js/monaco/vs' }});
   
-  	require(['vs/editor/editor.main'], function() {
-      editor.monaco = monaco.editor.create(document.getElementById("code-editor"), {
-        minimap: {
-          enabled: false
-        }
-      });
-  	});
+    editor.cm = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        mode: "text/html",
+        lineNumbers: true
+    });
+
+    editor.cm.setSize($("#editor-container").width(), $("#editor-container").height() * 0.95); // TODO: Make the code editor properly fit the div.
 
     $('.ui.dropdown.examples').dropdown({
         onChange: function() {
