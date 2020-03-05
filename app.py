@@ -1,8 +1,7 @@
-import uuid
 import os
 import json
 
-from flask import Flask, render_template, abort, request, redirect, url_for
+from flask import Flask, render_template, abort
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,34 +12,18 @@ app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 def render_page(root="templates/example"):
     return render_template("index.html", examples=load_examples())
 
-@app.route("/", methods=("GET", "POST"))
+@app.route("/")
 def index():
-    if request.method == "POST":
-        return custom()
     return render_page()
 
 
-@app.route("/example/<name>/", methods=("GET", "POST"))
+@app.route("/example/<name>/")
 def example(name):
-    if request.method == "POST":
-        return custom()
         
     with open("templates/example/{}.json".format(name), "r") as fd:
         code = fd.read()
 
     return code
-
-
-@app.route("/custom/<uuid:id>/", methods=("GET", "POST"))
-@app.route("/custom/", methods=("GET", "POST"))
-def custom(id=None):
-    if request.method == "POST":
-        if id is None:
-            id = uuid.uuid4()
-        with open("custom/{}.txt".format(id), "w") as fd:
-            fd.write(request.form["code"])
-        return redirect(url_for("custom", id=id))
-    return render_page(id, root="custom")
 
 
 def load_examples():

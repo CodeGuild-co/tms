@@ -2,13 +2,15 @@
 <html lang="en">
     <head>
         <title>Online Turing Machine Simulator</title>
+        <script src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>
+
         <meta http-equiv="Content-Type" content="text/ html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <meta name="Description" content="Interactive Turing machine simulator. Use a simple language to create, compile and run your Turing machines save and share your own Turing machines.">
         <meta name="Keywords" content="Turing, machine, simulator, online">
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css" type="text/css" rel="stylesheet" >
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.min.css" type="text/css" rel="stylesheet" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.0/codemirror.min.css" integrity="sha256-vZ3SaLOjnKO/gGvcUWegySoDU6ff33CS5i9ot8J9Czk=" crossorigin="anonymous" />
 
         <link href="/static/styles.css" type="text/css" rel="stylesheet" />
     </head>
@@ -34,18 +36,15 @@
                 </div>
 
                 <div class="ui segment hidden" id="graph-container" style="flex: 1 1 auto;">
-                </div>
+
 
             </div>
-
-        </div>
         <div class="top-right">
 
             <div class="ui segments" style="height: 100%; display: flex; flex-flow: column; flex: 0 1 auto;">
                 <div class="ui segment" style="flex: 0 1 auto;">
                     <h3>Settings</h3>
                 </div>
-
                 <form class="ui segment form" style="flex: 1 1 auto;">
                     <div class="field">
                         <label>Start State</label>
@@ -65,24 +64,17 @@
                     <div class="ui search selection dropdown examples">
                         <input name="file" type="hidden">
                         <i class="dropdown icon"></i>
-                        <div class="default text">Load file...</div>
+                        <div class="default text">Examples...</div>
                         <div class="menu">
                             <div class="ui icon search input">
                                 <i class="search icon"></i>
-                                <input placeholder="Search files..." type="text">
+                                <input placeholder="Search..." type="text">
                             </div>
-                            <div class="header">Standard</div>
                             {% for e in examples %}
                                 <div class="item" data-value="{{ e.filename }}">{{ e.name }}</div>
                             {% endfor %}
-                            <div class="header">Custom</div>
-                            <div class="item disabled custom" >None yet :(</div>
                         </div>
                     </div>
-                    <button class="ui blue labelled icon button action save">
-                        <i class="save icon"></i>
-                        Save
-                    </button>
                     <button class="ui green labelled icon button right floated action compile">
                         <i class="wizard icon"></i>
                         Compile
@@ -96,7 +88,7 @@
 
     <div class="bottom-row">
         <div class="ui segments">
-            <div class="ui segment clearing">
+                <div class="ui segment clearing">
                 <h3 class="ui header left floated" style="margin-bottom: 0;">Machine</h3>
                 <div class="ui label right floated">
                   Step
@@ -105,65 +97,74 @@
                 <div class="ui label right floated" style="margin-right: 10px;">
                   State
                   <div class="detail" id="machine-state">&lt;none&gt;</div>
+                    </div>
+                </div>
+                <div class="ui segment tape-container">
+                    <div id="tape"></div>
+                </div>
+                <div class="ui segment">
+
+                    <select class="ui dropdown speed">
+                        <option value="1000">Slowest</option>
+                        <option value="625">Slower</option>
+                        <option value="375">Slow</option>
+                        <option value="250" selected>Normal Speed</option>
+                        <option value="100">Fast</option>
+                        <option value="50">Faster</option>
+                        <option value="0">Fastest</option>
+                        <option value="-1">Don't Render</option>
+                    </select>
+
+                    <select class="ui dropdown movement">
+                        <option value="static">Don't move</option>
+                        <option value="head" selected>Move with head</option>
+                        <option value="necessary">Move if necessary</option>
+                        <option value="left">Stick to left</option>
+                        <option value="right">Stick to right</option>
+                    </select>
+
+                    <button class="ui blue labelled icon button" id="tidy">
+                        Tidy up
+                    </button>
+
+                    <div class="ui icon buttons floated right controls">
+                        <button class="ui icon button" id="step">
+                            <i class="step forward icon"></i>
+                        </button>
+                        <button class="ui icon button" id="play">
+                            <i class="play icon"></i>
+                        </button>
+
+                        <button class="ui icon button" id="pause">
+                            <i class="pause icon"></i>
+                        </button>
+                        <button class="ui icon button" id="stop">
+                            <i class="stop icon"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="ui segment tape-container">
-                <div id="tape"></div>
-            </div>
-            <div class="ui segment">
-
-                <select class="ui dropdown speed">
-                    <option value="1000">Slowest</option>
-                    <option value="625">Slower</option>
-                    <option value="375">Slow</option>
-                    <option value="250" selected>Normal Speed</option>
-                    <option value="100">Fast</option>
-                    <option value="50">Faster</option>
-                    <option value="0">Fastest</option>
-                    <option value="-1">Don't Render</option>
-                </select>
-
-                <select class="ui dropdown movement">
-                    <option value="static">Don't move</option>
-                    <option value="head" selected>Move with head</option>
-                    <option value="necessary">Move if necessary</option>
-                    <option value="left">Stick to left</option>
-                    <option value="right">Stick to right</option>
-                </select>
-
-                <button class="ui blue labelled icon button" id="tidy">
-                    Tidy up
-                </button>
-
-                <div class="ui icon buttons floated right controls">
-                    <button class="ui icon button" id="step">
-                        <i class="step forward icon"></i>
-                    </button>
-                    <button class="ui icon button" id="play">
-                        <i class="play icon"></i>
-                    </button>
-
-                    <button class="ui icon button" id="pause">
-                        <i class="pause icon"></i>
-                    </button>
-                    <button class="ui icon button" id="stop">
-                        <i class="stop icon"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!--<div id="messages"></div>-->
+            <div class="ui segments">
+                <div class="ui segment">
+                    <h2 class="ui header">Graph</h2>
+                </div>
+                <div class="ui segment">
+                    <div id = "mynetwork" style = "width:100%;height:1000px"></div>
+                </div>
+            </div>
+
+            <div class="ui errors"></div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
     <script src="/static/js/monaco/vs/loader.js"></script>
 
     <script src="/static/js/messages.js"></script>
     <script src="/static/js/editor.js"></script>
     <script src="/static/js/machine.js"></script>
-    <script src="/static/js/user.js"></script>
+            <script src="/static/js/graph.js"></script>
 
-    <div class="ui errors"></div>
     </body>
 </html>
