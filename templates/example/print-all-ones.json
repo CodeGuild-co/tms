@@ -1,0 +1,8 @@
+{
+  
+    "name": "Print All Ones",
+    "start_state": "q0",
+    "start_tape": "",
+    "code": "q0 _ 1 r q0"
+}
+
