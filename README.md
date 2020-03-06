@@ -1,6 +1,6 @@
 # TMS
 
-An online Turing Machine Simulator
+An online Turing Machine Simulator created by students at Villiers Park.
 
 ## Sharing Changes
 
