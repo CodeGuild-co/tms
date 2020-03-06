@@ -1,0 +1,7 @@
+{
+  
+    "name": "3 State Busy Beaver",
+    "start_state": "A",
+    "start_tape": "",
+    "code": "A _ 1 r B\nA 1 1 l C\n\nB _ 1 l A\nB 1 1 r B\n\nC _ 1 l B\nC 1 1 n halt"
+}
